@@ -51,7 +51,7 @@ var Bullet = function() {
 	this.y;
 
 	this.speed = 10;
-	this.amIAlive = false
+	this.amIAlive = false;
 };
 
 Bullet.prototype.drawBullet = function() {
@@ -61,10 +61,14 @@ Bullet.prototype.drawBullet = function() {
 	}
 	if (this.amIAlive) {
 		this.y -= this.speed;
+		if(this.y < -10) {
+			theBullet.x = theShip.x + (theShip.width/2);
+    		theBullet.y = theShip.y;
+		}
 		theBoard.context.fillStyle = "red"
 	    theBoard.context.fillRect(this.x, this.y, this.width, this.height);
 	}
-	else if (!this.amIAlive) {
+	if (!this.amIAlive) {
 		theBullet.x = theShip.x + (theShip.width/2);
     	theBullet.y = theShip.y;
 	}
