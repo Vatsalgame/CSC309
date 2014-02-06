@@ -110,7 +110,16 @@ Aliens.prototype.drawAliens = function() {
 			// making sure that aliens are drawn correctly
 			// move this check to shift()
 			if(this.alienPos[i][j] == 1)
- 				theBoard.context.fillRect(this.x + shiftX, this.y + shiftY, this.width, this.height);
+				// checking bullet collision
+				if(theBullet.x >= this.x + shiftX && theBullet.x <= this.x + shiftX + this.width) {
+					if(theBullet.y >= this.y + shiftY && theBullet.y <= this.y + shiftY + this.height) {
+						this.alienPos[i][j] = 0
+						theBullet.amIAlive = false;
+					}
+				}
+				// checking to make sure that the alien is still alive
+				if(this.alienPos[i][j] == 1)
+ 					theBoard.context.fillRect(this.x + shiftX, this.y + shiftY, this.width, this.height);
  			shiftX += 50;
 		};
 		shiftY += 40;
@@ -159,15 +168,6 @@ Aliens.prototype.shift = function() {
 			this.y += 20;
 		else
 			this.success = true;
-	}
-}
-
-// unimplemented
-function checkCollision() {
-	// first checking if the bullet is in the big square
-	if (theBullet.x > theAliens.x 
-		&& theBullet.y > theAliens.y) {
-
 	}
 }
 
