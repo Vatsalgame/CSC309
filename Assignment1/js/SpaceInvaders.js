@@ -1,4 +1,5 @@
 // The function (class) that initializes the game
+// The main board (screen) for the game
 var Board = function(){
     this.canvas = document.getElementById("mainCanvas");
     this.context = this.canvas.getContext("2d");
@@ -7,13 +8,16 @@ var Board = function(){
     this.height = 600;
 
     this.level = 1;
+    this.score = 0;
 };
 
+// all global variables
 var theBoard = new Board();
 var theShip;
 var theBullet;
 var theAliens;
 
+// the user controlled ship
 var CanonShip = function() {
     this.x = 380;
     this.y = 580;
@@ -29,6 +33,7 @@ var CanonShip = function() {
     // img.src = "";
 };
 
+// function to draw the ship
 CanonShip.prototype.drawShip = function() {
 	// moving the ship before drawing
 	// could make this a shift function too?
@@ -40,10 +45,11 @@ CanonShip.prototype.drawShip = function() {
 		if (theShip.x - 7 >= 0)
     		theShip.x -= 7;
 	}
-	theBoard.context.fillStyle = "green"
+	theBoard.context.fillStyle = "green";
     theBoard.context.fillRect(this.x, this.y, this.width, this.height);
 };
 
+// the bullet (generally shot from the ship)
 var Bullet = function() {
 	this.width = 2;
 	this.height = 10;
@@ -55,6 +61,7 @@ var Bullet = function() {
 	this.spam = false;
 };
 
+// function to draw the moving bullet
 Bullet.prototype.drawBullet = function() {
 	if (this.y < -10) { 
 		// outside screen
@@ -75,6 +82,7 @@ Bullet.prototype.drawBullet = function() {
 	}
 };
 
+// all the aliens!
 var Aliens = function() {
 	// the 2d array for all aliens
 	this.alienPos = new Array();
@@ -85,6 +93,8 @@ var Aliens = function() {
     this.height = 20;
     // the array to keep track of aliens in a column
     this.alienColCount = [5,5,5,5,5,5,5,5,5,5];
+    // keeping a total count to quickly determine
+    // if a level's over
     this.totalAlienCount = 50;
     // vars to determine which is the last left or
     // right column
@@ -103,12 +113,14 @@ var Aliens = function() {
     this.success = false;
 };
 
+// function to initialize the aliens
 Aliens.prototype.initAliens = function() {
 	for (var i = 0; i < 5; i++) {
 		this.alienPos[i] = [1,1,1,1,1,1,1,1,1,1];
 	};
 };
 
+// function to draw the shifting aliens
 Aliens.prototype.drawAliens = function() {
 	theBoard.context.fillStyle = "blue";
 	var shiftX = 0, shiftY = 0;
@@ -123,8 +135,11 @@ Aliens.prototype.drawAliens = function() {
 					if(theBullet.y >= this.y + shiftY && theBullet.y <= this.y + shiftY + this.height) {
 						// destroying the alien
 						this.alienPos[i][j] = 0;
+						// decreasing alien count
 						this.alienColCount[j] -= 1;
 						this.totalAlienCount -= 1;
+						// increasing the score
+						theBoard.score += 1;
 						// destroying the bullet
 						theBullet.amIAlive = false;
 						theBullet.spam = false;
@@ -139,6 +154,7 @@ Aliens.prototype.drawAliens = function() {
 	};
 };
 
+// function to actually shift the aliens
 Aliens.prototype.shift = function() {
 	// determine if we need to switch movement direction
 	if (this.reachedRightBoundary) {
@@ -184,6 +200,14 @@ Aliens.prototype.shift = function() {
 	}
 }
 
+// function to display the score
+function displayScore() {
+	theBoard.context.fillStyle = "green";
+	theBoard.context.font = "bold 24px Times";
+	theBoard.context.fillText("Score: " + theBoard.score, 7, 22);
+}
+
+// function to run the game
 Board.prototype.run = function(){
     theShip = new CanonShip();
     theBullet = new Bullet();
@@ -192,12 +216,16 @@ Board.prototype.run = function(){
     redraw();   
 };
 
+
 function clearScreen() {
 	theBoard.context.clearRect(0, 0, 800, 600);
 };
 
+// function that is called after every X interval
+// redraws on the canvas
 function redraw() {
 	clearScreen();
+	displayScore();
 	theShip.drawShip();
 	theBullet.drawBullet();
 	theAliens.drawAliens();
@@ -214,6 +242,7 @@ function redraw() {
 	}
 };
 
+// function to react to key presses
 $(document).keydown(function(e){
 	// right arrow
     if (e.keyCode == 39) {
@@ -255,6 +284,7 @@ $(document).keyup(function(e) {
 	}
 });
 
+// runs the game when page is loaded
 window.onload = function() {
 	theBoard.run();
 	setInterval(redraw, 20);
