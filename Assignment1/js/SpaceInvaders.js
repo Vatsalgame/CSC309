@@ -83,6 +83,14 @@ var Aliens = function() {
 	this.y = 50;
 	this.width = 20;
     this.height = 20;
+    // the array to keep track of aliens in a column
+    this.alienColCount = [5,5,5,5,5,5,5,5,5,5];
+    this.totalAlienCount = 50;
+    // vars to determine which is the last left or
+    // right column
+    this.leftCol = 0;
+    this.rightCol = 9;
+
     // flags for movement
     this.movingLeft = false;
     // start the game by moving right
@@ -113,8 +121,13 @@ Aliens.prototype.drawAliens = function() {
 				// checking bullet collision
 				if(theBullet.x >= this.x + shiftX && theBullet.x <= this.x + shiftX + this.width) {
 					if(theBullet.y >= this.y + shiftY && theBullet.y <= this.y + shiftY + this.height) {
-						this.alienPos[i][j] = 0
+						// destroying the alien
+						this.alienPos[i][j] = 0;
+						this.alienColCount[j] -= 1;
+						this.totalAlienCount -= 1;
+						// destroying the bullet
 						theBullet.amIAlive = false;
+						theBullet.spam = false;
 					}
 				}
 				// checking to make sure that the alien is still alive
@@ -194,6 +207,11 @@ function redraw() {
 		alert("Game Over!");
 		location.reload();
 	}
+	if (theAliens.totalAlienCount == 0) {
+		alert("Next Level?");		
+		theBoard.level += 1;
+		theBoard.run();
+	}
 };
 
 $(document).keydown(function(e){
@@ -232,6 +250,7 @@ $(document).keyup(function(e) {
 		theShip.movingLeft = false;
 	}
 	else if (e.keyCode == 32) {
+		this.amIAlive = false;
 		theBullet.spam = false;
 	}
 });
