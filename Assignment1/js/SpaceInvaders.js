@@ -57,7 +57,7 @@ var Bullet = function() {
 
 Bullet.prototype.drawBullet = function() {
 	if (this.y < -10) { 
-		// also check for collision
+		// outside screen
 		this.amIAlive = false;
 	}
 	if (this.amIAlive) {
@@ -123,7 +123,7 @@ Aliens.prototype.shift = function() {
 		this.reachedRightBoundary = false;
 		this.movingLeft = true;
 		this.movingRight = false;
-		this.shiftDown = true
+		this.shiftDown = true;
 	}
 
 	else if (this.reachedLeftBoundary) {
@@ -162,7 +162,14 @@ Aliens.prototype.shift = function() {
 	}
 }
 
+// unimplemented
+function checkCollision() {
+	// first checking if the bullet is in the big square
+	if (theBullet.x > theAliens.x 
+		&& theBullet.y > theAliens.y) {
 
+	}
+}
 
 Board.prototype.run = function(){
     theShip = new CanonShip();
@@ -182,6 +189,11 @@ function redraw() {
 	theBullet.drawBullet();
 	theAliens.drawAliens();
 	theAliens.shift();
+	// the aliens reached the bottom of the screen
+	if (theAliens.success) {
+		alert("Game Over!");
+		location.reload();
+	}
 };
 
 $(document).keydown(function(e){
