@@ -52,6 +52,7 @@ var Bullet = function() {
 
 	this.speed = 10;
 	this.amIAlive = false;
+	this.spam = false;
 };
 
 Bullet.prototype.drawBullet = function() {
@@ -61,7 +62,7 @@ Bullet.prototype.drawBullet = function() {
 	}
 	if (this.amIAlive) {
 		this.y -= this.speed;
-		if(this.y < -10) {
+		if(this.y < -10 && this.spam) {
 			theBullet.x = theShip.x + (theShip.width/2);
     		theBullet.y = theShip.y;
 		}
@@ -201,6 +202,7 @@ $(document).keydown(function(e){
     	if (!theBullet.amIAlive) {
 	    	theBullet.amIAlive = true;
 	    }
+	    theBullet.spam = true;
        	return false;
     }
     else {
@@ -216,6 +218,9 @@ $(document).keyup(function(e) {
 	// left arrow
 	else if (e.keyCode == 37) {
 		theShip.movingLeft = false;
+	}
+	else if (e.keyCode == 32) {
+		theBullet.spam = false;
 	}
 });
 
