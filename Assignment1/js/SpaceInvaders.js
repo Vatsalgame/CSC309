@@ -1,4 +1,3 @@
-// The function (class) that initializes the game
 // The main board (screen) for the game
 var Board = function(){
     this.canvas = document.getElementById("mainCanvas");
@@ -205,6 +204,7 @@ function displayScore() {
 	theBoard.context.fillStyle = "green";
 	theBoard.context.font = "bold 24px Times";
 	theBoard.context.fillText("Score: " + theBoard.score, 7, 22);
+	theBoard.context.fillText("Level: " + theBoard.level, 700, 22);
 }
 
 // function to run the game
