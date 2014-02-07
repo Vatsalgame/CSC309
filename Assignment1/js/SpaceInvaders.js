@@ -21,7 +21,7 @@ var CanonShip = function() {
     this.x = 380;
     this.y = 580;
 
-    this.width = 20;
+    this.width = 50;
     this.height = 20;
 
     // movement flags
@@ -37,7 +37,7 @@ CanonShip.prototype.drawShip = function() {
 	// moving the ship before drawing
 	// could make this a shift function too?
 	if(this.movingRight) {
-		if (theShip.x + 7 <= 780)
+		if (theShip.x + 7 <= 800 - this.width)
     		theShip.x += 7;
 	}
 	else if(this.movingLeft) {
@@ -90,15 +90,21 @@ var Aliens = function() {
 	this.y = 50;
 	this.width = 20;
     this.height = 20;
+    // if aliens in a row or a column get destroyed, modifiy the shifting parameters
+    this.overallHeight = 200;
+    this.leftBoundary = 0;
+    this.rightBoundary = 450;
     // the array to keep track of aliens in a column
     this.alienColCount = [5,5,5,5,5,5,5,5,5,5];
+    this.alienRowCount = [10, 10, 10, 10, 10];
     // keeping a total count to quickly determine
     // if a level's over
     this.totalAlienCount = 50;
     // vars to determine which is the last left or
-    // right column
+    // right column (in all aliens in a row or col get destroyed)
     this.leftCol = 0;
     this.rightCol = 9;
+    this.lastRow = 4;
 
     // flags for movement
     this.movingLeft = false;
@@ -136,6 +142,19 @@ Aliens.prototype.drawAliens = function() {
 						this.alienPos[i][j] = 0;
 						// decreasing alien count
 						this.alienColCount[j] -= 1;
+						this.alienRowCount[i]--;
+						if (this.alienRowCount[this.lastRow] == 0){
+							this.lastRow--;
+							this.overallHeight -= 40;
+						}
+						if (this.alienColCount[this.leftCol] == 0){
+							this.leftCol++;
+							this.leftBoundary += 50;
+						}
+						if (this.alienColCount[this.rightCol] == 0){
+							this.rightCol--;
+							this.rightBoundary -= 50;
+						}
 						this.totalAlienCount -= 1;
 						// increasing the score
 						theBoard.score += 1;
@@ -173,7 +192,7 @@ Aliens.prototype.shift = function() {
 	// determine which side to move towards
 	if (this.movingRight && !this.movingLeft) {
 		// make sure that all the aliens can be drawn
-		if(this.x + theBoard.level + 450 < 780) {
+		if(this.x + theBoard.level + this.rightBoundary < 780) {
 			this.x += theBoard.level;
 		}
 		else {
@@ -181,7 +200,7 @@ Aliens.prototype.shift = function() {
 		}
 	}
 	else if (!this.movingRight && this.movingLeft) {
-		if (this.x - theBoard.level > 0) {
+		if (this.x - theBoard.level + this.leftBoundary > 0) {
 			this.x -= theBoard.level;
 		}
 		else {
@@ -192,9 +211,9 @@ Aliens.prototype.shift = function() {
 	// determine if shifting down is required
 	if(this.shiftDown) {
 		this.shiftDown = false;
-		if(this.y + 200 < 580)
+		if(this.y + this.overallHeight < 580)
 			this.y += 20;
-		else
+		else if(this.totalAlienCount > 0)
 			this.success = true;
 	}
 }
