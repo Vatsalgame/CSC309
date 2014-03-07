@@ -23,3 +23,6 @@ The way the drawing (animation) works is that it uses a timer which tells the ca
 
 Lastly, it uses the onload function of JQuery to determine when the game should be loaded. It also uses two other functions to react ot key presses.
 
+About the Authors:
+Keyvan Mosharraf (999243162)
+Vatsal Namit (999276000)
