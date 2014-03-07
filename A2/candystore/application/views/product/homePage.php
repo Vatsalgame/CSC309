@@ -8,28 +8,48 @@
 </head>
   <body>
 	<div class="main-section">
+		<div class="contain-to-grid sticky">
+		  <nav class="top-bar" data-topbar>
+			  <ul class="title-area">
+			    <li class="name">
+			      <h1><a href="index">CandyStore</a></h1>
+			    </li>
+			    <li class="toggle-topbar menu-icon"><a href="#"></a></li>
+			  </ul>
+
+			  <section class="top-bar-section">
+			    
+			    <!-- Left Nav Section -->
+			    <ul class="left">
+			      <li><a href="#">Home/Browse Candies</a></li>
+			    </ul>
+
+			    <!-- Right Nav Section -->
+			    <ul class="right">
+			      <li><a href="#">Shopping Cart</a></li>
+			      <li class="divider"></li>
+			      <li class="has-form">
+		      		<input type="text" placeholder="Username">
+			      </li>
+			      <li class="has-form">
+		      		<input type="text" placeholder="Password">
+			      </li>
+			      <li class="has-form">
+		      		<a href="#" class="button success">Sign In</a>
+			      </li>
+			      <li class="divider"></li>
+			      <li class="has-form">
+		      		<a href="#" class="button">Sign Up</a>
+			      </li>
+			    </ul>
+			  </section>
+		  </nav>
+		</div>
+
 		<h2>Product Table</h2>
 
 		<?php 
 			echo "<p>" . anchor('candystore/newForm','Add New') . "</p>";
-	 	  
-			// echo "<table>";
-			// echo "<tr><th>Name</th><th>Description</th><th>Price</th><th>Photo</th></tr>";
-			
-			// foreach ($products as $product) {
-			// 	echo "<tr>";
-			// 	echo "<td>" . $product->name . "</td>";
-			// 	echo "<td>" . $product->description . "</td>";
-			// 	echo "<td>" . $product->price . "</td>";
-			// 	echo "<td><img src='" . base_url() . "images/product/" . $product->photo_url . "' width='100px' /></td>";
-					
-			// 	echo "<td>" . anchor("candystore/delete/$product->id",'Delete',"onClick='return confirm(\"Do you really want to delete this record?\");'") . "</td>";
-			// 	echo "<td>" . anchor("candystore/editForm/$product->id",'Edit') . "</td>";
-			// 	echo "<td>" . anchor("candystore/read/$product->id",'View') . "</td>";
-					
-			// 	echo "</tr>";
-			// }
-			// echo "<table>";
 		?>
 
 		<!-- Code to display candies in a grid format -->

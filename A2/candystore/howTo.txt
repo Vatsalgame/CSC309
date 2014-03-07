@@ -1,3 +1,1 @@
  ssh <cdfusername>@cdf.toronto.edu -L 3306:bungle07.cs.toronto.edu:3306
-
- -- Vatsal
