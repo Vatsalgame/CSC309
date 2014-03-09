@@ -65,6 +65,13 @@ class CandyStore extends CI_Controller {
 			$this->load->view('product/newForm.php');
 		}	
 	}
+
+	function signUp() {
+		// $this->load->model('product_model');
+		$data['signUpError'] = NULL;
+		$data['validationErrors'] = [];
+		$this->load->view('login_system/signUp.php', $data);
+	}
 	
 	function read($id) {
 		$this->load->model('product_model');
@@ -119,7 +126,37 @@ class CandyStore extends CI_Controller {
 		redirect('candystore/index', 'refresh');
 	}
       
-   
+ //   	function addNewCustomer()  {
+ //    	// Basic validation is already performed using a library from Foundation
+    	
+ //    	$this->load->library('form_validation');
+	// $this->form_validation->set_rules('firstName','First Name','required|min_length[2]|max_length[24]|alpha');
+	// $this->form_validation->set_rules('lastName','Last Name','required|min_length[2]|max_length[24]|alpha');
+	// $this->form_validation->set_rules('username','Username','required|min_length[2]|max_length[16]|alpha-dash|is_unique[customer.login]');
+	// $this->form_validation->set_rules('password','Password','required|min_length[2]|max_length[16]|alpha_numeric');
+	// $this->form_validation->set_rules('userEmail','Email','required|min_length[6]|max_length[45]|valid_email|is_unique[customer.email]');
+
+	// if ($this->form_validation->run() == true) {
+	// 	$this->load->model('customer_model');
+
+	// 	// Initialize a customer object and collect the info from the input fields
+	// 	$customer = new Customer();
+	// 	$customer->firstName = $this->input->get_post('firstName');
+	// 	$customer->lastName = $this->input->get_post('lastName');
+	// 	$customer->username = $this->input->get_post('username');
+	// 	$customer->password = $this->input->get_post('password');
+	// 	$customer->email = $this->input->get_post('userEmail');
+
+	// 	$this->customer_model->insert($customer);
+	// 	//Then we redirect to the index page again
+	// 	redirect('candystore/index', 'refresh');	
+	// }
+	// else {
+	// 	$data['signUpError'] = "We're sorry as we couldn't sign you up. Kindly Try again :)";
+ // 		$data['validationErrors'] = validation_errors();
+	// 	$this->load->view('login_system/signUp.php', $data);
+	// }
+ //    }
     
     
     
