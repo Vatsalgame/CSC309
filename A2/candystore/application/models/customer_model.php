@@ -19,9 +19,9 @@ class Customer_model extends CI_Model {
 	}
 	
 	function insert($customer) {
-		return $this->db->insert("customer", array('first' => $customer->firstName,
-				                                 	        'last' => $customer->lastName,
-							        'login' => $customer->username,
+		return $this->db->insert("customer", array('first' => $customer->first,
+				                                 	        'last' => $customer->last,
+							        'login' => $customer->login,
 							        'password' => $customer->password,
 							        'email' => $customer->email));
 	}
@@ -29,13 +29,12 @@ class Customer_model extends CI_Model {
 	// This function would never be used. It's here for testing purposes
 	function update($customer) {
 		$this->db->where('id', $customer->id);
-		return $this->db->update("customer", array('firstName' => $customer->firstName,
-				                                 	        'lastName' => $customer->lastName,
-							        'username' => $customer->username,
+		return $this->db->update("customer", array('first' => $customer->first,
+				                                 	        'last' => $customer->last,
+							        'login' => $customer->login,
 							        'password' => $customer->password,
 							        'email' => $customer->email));
 	}
 	
 	
 }
-?>

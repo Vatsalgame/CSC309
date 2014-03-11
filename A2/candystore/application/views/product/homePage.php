@@ -5,6 +5,7 @@
     	<title>CandyStore | HomePage</title>
     	<link rel="stylesheet" href="<?php echo base_url("css/foundation.min.css"); ?>" />
     	<script src="<?php echo base_url("js/vendor/modernizr.js"); ?>"></script>
+    	<script src="<?php echo base_url("js/vendor/jquery.js"); ?>"></script>
 </head>
   <body>
 	<div class="main-section">
@@ -46,7 +47,7 @@
 			      </li> -->
 			      <!-- The first argument of anchor takes the path to the controller function -->
 			      <?php
-			      	echo "<li class='has-form'>" . anchor('candystore/signUp', 'Sign Up', 'class="button"') . "</li>";
+			      	echo "<li class='has-form'>" . anchor('logincontroller/index', 'Sign Up', 'class="button"') . "</li>";
 			      ?>
 			    </ul>
 			  </section>
@@ -62,6 +63,27 @@
 	<!-- 	<?php 
 			echo "<p>" . anchor('candystore/signUp', 'Sign Up') . "</p>";
 		?> -->
+
+		<!-- The sign up pop-up -->
+		<div id="myModal" class="reveal-modal" data-reveal>
+		  <h3>Awesome! You've successfully signed up for CandyStore.</h3>
+		  <p class="lead">You're a platinum member now</p>
+		  <p>Being a platinum member, you are not only allowed to look at candy, but also buy as much as you want.</p>
+		  <div class="closeButton">
+		  	<a class="button left" id="signedUpClose"> Gotcha! </a>
+		  </div>
+		  <a class="close-reveal-modal">&#215;</a>
+		</div>
+
+		<?php
+			if($signedUp) {
+				echo "<script> alert(\"Thank you for signing up! \"); </script>";
+				// echo "<script> $('#myModal').foundation('reveal', 'open'); </script>";
+			}
+		?>
+		
+		<!-- Hidden link to open the model -->
+		<a href="#" data-reveal-id="myModal" id="modelLink" data-reveal class="button checking">Click Me For A Modal</a> 
 
 		<!-- Code to display candies in a grid format -->
 		<ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4">
@@ -86,7 +108,22 @@
 		</ul>
 	</div>
 
-      	<script src="<?php echo base_url("js/vendor/jquery.js"); ?>"></script>
+
+	<!-- To close the sign up pop-up -->
+	<script>
+		// $('#modelLink').click(function() {
+			// alert("Hello");
+		// 	$('#myModal').foundation('reveal', 'open');
+		// });
+
+		// $("a.checking").trigger("click");
+
+		$('#signedUpClose').click(function() {
+			$('#myModal').foundation('reveal', 'close');
+			// $('#myModal').foundation('reveal', 'open');
+		});
+	</script>
+
       	<script src="<?php echo base_url("js/foundation.min.js"); ?>"></script>
       	<script>
       	 	$(document).foundation();

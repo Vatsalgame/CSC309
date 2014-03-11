@@ -1,9 +1,9 @@
 <?php
-class Customer  {
+class Customer {
 	public $id;
-	public $firstName;
-	public $lastName
-	public $username;
+	public $first;
+	public $last;
+	public $login;
 	public $password;
 	public $email;	
 }
