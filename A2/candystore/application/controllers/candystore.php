@@ -23,7 +23,15 @@ class CandyStore extends CI_Controller {
     		$this->load->model('product_model');
     		$products = $this->product_model->getAll();
     		$data['products']=$products;
+    		
+    		// Would be used to create a pop-up if a customer just signed up
     		$data['signedUp'] = False;
+    		// Used for displaying login properly
+    		$data['loggedIn'] = False;
+    		$data['username'] = NULL;
+    		// Used if login fails
+    		$data['loginFailed'] = False;
+
     		// $this->load->view('product/list.php',$data);
     		$this->load->view('product/homePage.php', $data);
     }
@@ -130,7 +138,32 @@ class CandyStore extends CI_Controller {
 
 	// Function to log in a customer/admin
 	function logIn() {
-		
+		$this->load->model('customer_model');
+		$this->load->model('customer');
+
+		$customer = new Customer();
+		$customer->login = $this->input->get_post('username');
+		$customer->password = $this->input->get_post('password');
+
+		$loggedIn_customer = $this->customer_model->getLogin($customer->login, $customer->password);
+		// Checking if the login was successful
+		if($loggedIn_customer) {
+			$data['loggedIn'] = True;
+			$data['username'] = $loggedIn_customer->first + $loggedIn_customer->last;
+			
+			$this->load->model('product_model');
+    			$products = $this->product_model->getAll();
+    			$data['products']=$products;
+    			$this->load->view('product/homePage.php', $data);
+		}
+		else {
+			$data['loginFailed'] = True;
+
+			$this->load->model('product_model');
+    			$products = $this->product_model->getAll();
+    			$data['products']=$products;
+    			$this->load->view('product/homePage.php', $data);
+		}
 	}
 }
 

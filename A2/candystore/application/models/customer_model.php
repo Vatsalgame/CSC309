@@ -25,8 +25,15 @@ class Customer_model extends CI_Model {
 							        'password' => $customer->password,
 							        'email' => $customer->email));
 	}
+
+	// To see if a particular customer exists to be able to log em in
+	function getLogin($username, $password) {
+		$query = $this->db->get_where('customer', array('login' => $username,
+								        'password' => $password));
+		return $query->row(0, 'Customer');
+	}
 	
-	// This function would never be used. It's here for testing purposes
+	// This function would never be used by a customer query.
 	function update($customer) {
 		$this->db->where('id', $customer->id);
 		return $this->db->update("customer", array('first' => $customer->first,

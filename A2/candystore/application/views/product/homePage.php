@@ -32,23 +32,45 @@
 			    <ul class="right">
 			      <li><a href="#">Shopping Cart</a></li>
 			      <li class="divider"></li>
-			      <li class="has-form">
-		      		<input type="text" placeholder="Username">
+
+			      <?php
+			      	if($loggedIn) {
+
+			      	}
+
+			      	else {
+			      		echo " <li class=\"has-form\">
+		      					<input type=\"text\" placeholder=\"Username\" name=\"username\" id=\"username\">
+			      			</li>
+			     			 <li class=\"has-form\">
+		      					<input type=\"text\" placeholder=\"Password\" name=\"username\" id=\"username\">
+			      			</li>
+			      			<li class=\"has-form\">
+		      					<a href=\"#\" class=\"button success\">Sign In</a>
+			      			</li>
+			      			<li class=\"divider\"></li>";
+			      		echo "<li class='has-form'>" . anchor('logincontroller/index', 'Sign Up', 'class="button"') . "</li>";
+			      	}
+
+			      ?>
+
+			  <!--     <li class="has-form">
+		      		<input type="text" placeholder="Username" name="username" id="username">
 			      </li>
 			      <li class="has-form">
-		      		<input type="text" placeholder="Password">
+		      		<input type="text" placeholder="Password" name="username" id="username">
 			      </li>
 			      <li class="has-form">
 		      		<a href="#" class="button success">Sign In</a>
 			      </li>
-			      <li class="divider"></li>
+			      <li class="divider"></li> -->
 			      <!-- <li class="has-form">
 		      		<a href="#" class="button">Sign Up</a>
 			      </li> -->
 			      <!-- The first argument of anchor takes the path to the controller function -->
-			      <?php
-			      	echo "<li class='has-form'>" . anchor('logincontroller/index', 'Sign Up', 'class="button"') . "</li>";
-			      ?>
+			<!--       <?php
+			      	// echo "<li class='has-form'>" . anchor('logincontroller/index', 'Sign Up', 'class="button"') . "</li>";
+			      ?> -->
 			    </ul>
 			  </section>
 		  </nav>
