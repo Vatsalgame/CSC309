@@ -1,4 +1,7 @@
 <?php
+// starting the session for login functionality
+session_start();
+
 
 class CandyStore extends CI_Controller {
    
@@ -27,10 +30,10 @@ class CandyStore extends CI_Controller {
     		// Would be used to create a pop-up if a customer just signed up
     		$data['signedUp'] = False;
     		// Used for displaying login properly
-    		$data['loggedIn'] = False;
-    		$data['username'] = NULL;
+    		// $data['loggedIn'] = False;
+    		// $data['username'] = NULL;
     		// Used if login fails
-    		$data['loginFailed'] = False;
+    		// $data['loginFailed'] = False;
 
     		// $this->load->view('product/list.php',$data);
     		$this->load->view('product/homePage.php', $data);
@@ -141,29 +144,66 @@ class CandyStore extends CI_Controller {
 		$this->load->model('customer_model');
 		$this->load->model('customer');
 
-		$customer = new Customer();
-		$customer->login = $this->input->get_post('username');
-		$customer->password = $this->input->get_post('password');
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('username','Username','required');
+		$this->form_validation->set_rules('password','Password','required');
 
-		$loggedIn_customer = $this->customer_model->getLogin($customer->login, $customer->password);
-		// Checking if the login was successful
-		if($loggedIn_customer) {
-			$data['loggedIn'] = True;
-			$data['username'] = $loggedIn_customer->first + $loggedIn_customer->last;
-			
-			$this->load->model('product_model');
-    			$products = $this->product_model->getAll();
-    			$data['products']=$products;
-    			$this->load->view('product/homePage.php', $data);
+		if ($this->form_validation->run() == true) {
+			$customer = new Customer();
+			$customer->login = $this->input->get_post('username');
+			$customer->password = $this->input->get_post('password');
+
+			// echo $customer->login;
+			// echo $customer->password;
+			$loggedIn_customer = $this->customer_model->getLogin($customer->login, $customer->password);
+			// $loggedIn = $loggedIn_customer->result();
+			// Checking if the login was successful
+			if($loggedIn_customer) {
+				$_SESSION['loggedIn'] = True;
+				$_SESSION['username'] = $loggedIn_customer->first;
+				// $data['loggedIn'] = True;
+				// $data['username'] = $loggedIn_customer->first;
+
+				$this->load->model('product_model');
+	    			$products = $this->product_model->getAll();
+	    			$data['products']=$products;
+	    			$data['signedUp'] = False;
+	    			$this->load->view('product/homePage.php', $data);
+			}
+			else {
+				// $data['loginFailed'] = True;
+
+				$this->load->model('product_model');
+	    			$products = $this->product_model->getAll();
+	    			$data['products']=$products;
+	    			$data['signedUp'] = False;
+	    			// $data['loggedIn'] = False;
+	    			// $data['username'] = NULL;
+	    			$this->load->view('product/homePage.php', $data);
+			}
 		}
 		else {
-			$data['loginFailed'] = True;
-
 			$this->load->model('product_model');
     			$products = $this->product_model->getAll();
     			$data['products']=$products;
-    			$this->load->view('product/homePage.php', $data);
+    			$data['signedUp'] = False;
+    			// $data['loggedIn'] = False;
+    			// $data['username'] = NULL;
+    			// $data['loginFailed'] = False;
+    			$this->load->view('product/homePage.php', $data);	
 		}
+	}
+
+	function logOut() {
+		if(isset($_SESSION['loggedIn'])) {
+			unset($_SESSION['loggedIn']);
+			unset($_SESSION['username']);
+		}
+		$this->load->model('product_model');
+		$products = $this->product_model->getAll();
+		$data['products']=$products;
+		$data['signedUp'] = False;
+		$this->load->view('product/homePage.php', $data);
 	}
 }
 

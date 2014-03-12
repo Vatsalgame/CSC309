@@ -34,21 +34,25 @@
 			      <li class="divider"></li>
 
 			      <?php
-			      	if($loggedIn) {
-
+			      	if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
+			      		echo "<li> <a href=\"#\"> Welcome, " . $_SESSION['username'] . "</a></li>";
+			      		echo "<li class=\"has-form\">" . anchor('candystore/logOut', 'Logout', 'class="button alert"') . "</li>";
 			      	}
 
 			      	else {
+			      		echo form_open_multipart('candystore/logIn');
+
 			      		echo " <li class=\"has-form\">
 		      					<input type=\"text\" placeholder=\"Username\" name=\"username\" id=\"username\">
-			      			</li>
-			     			 <li class=\"has-form\">
-		      					<input type=\"text\" placeholder=\"Password\" name=\"username\" id=\"username\">
-			      			</li>
-			      			<li class=\"has-form\">
-		      					<a href=\"#\" class=\"button success\">Sign In</a>
-			      			</li>
-			      			<li class=\"divider\"></li>";
+			      			</li>";
+		      			// echo form_error('username');
+			     		echo " <li class=\"has-form\">
+		      					<input type=\"text\" placeholder=\"Password\" name=\"password\" id=\"password\">
+			      			</li>";
+			      		// echo form_error('password');
+			      		// echo " <li class=\"has-form\">" . anchor('candystore/logIn', 'Sign In', 'class="button success"') . "</li>";
+			      		echo "<li class=\"has-form\"> " . form_submit('submit', 'Sign In', 'class= "button success"'); "</li>";
+			      		echo " <li class=\"divider\"></li>";
 			      		echo "<li class='has-form'>" . anchor('logincontroller/index', 'Sign Up', 'class="button"') . "</li>";
 			      	}
 
@@ -58,7 +62,7 @@
 		      		<input type="text" placeholder="Username" name="username" id="username">
 			      </li>
 			      <li class="has-form">
-		      		<input type="text" placeholder="Password" name="username" id="username">
+		      		<input type="text" placeholder="Password" name="password" id="password">
 			      </li>
 			      <li class="has-form">
 		      		<a href="#" class="button success">Sign In</a>
@@ -98,9 +102,11 @@
 		</div>
 
 		<?php
-			if($signedUp) {
-				echo "<script> alert(\"Thank you for signing up! \"); </script>";
-				// echo "<script> $('#myModal').foundation('reveal', 'open'); </script>";
+			if(defined($signedUp)) {
+				if($signedUp) {
+					echo "<script> alert(\"Thank you for signing up! \"); </script>";
+					// echo "<script> $('#myModal').foundation('reveal', 'open'); </script>";
+				}
 			}
 		?>
 		

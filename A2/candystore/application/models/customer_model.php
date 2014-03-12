@@ -31,6 +31,12 @@ class Customer_model extends CI_Model {
 		$query = $this->db->get_where('customer', array('login' => $username,
 								        'password' => $password));
 		return $query->row(0, 'Customer');
+		
+		// $array = array('login' => $username, 'password' => $password);
+		// $this->db->where($array);
+		// $query = $this->db->get('customer');
+
+		// return $query;
 	}
 	
 	// This function would never be used by a customer query.
