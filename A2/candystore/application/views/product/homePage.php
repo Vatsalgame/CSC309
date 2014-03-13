@@ -35,7 +35,7 @@
 			    <ul class="right">
 			      <!-- <li><a href="#">Shopping Cart</a></li> -->
 			      <li><a href="#" data-dropdown="cart-hover" data-options="is_hover:true">Shopping Cart</a></li>
-
+			      	<div id="cart">
 				<ul id="cart-hover" class="medium content f-dropdown" data-dropdown-content>
 				  <!-- <li>Item 1</li>
 				  <br/>
@@ -70,6 +70,7 @@
 				  	echo "</ul>";
 				  ?>
 				</ul>
+				</div>
 			      <li class="divider"></li>
 
 			      <?php
@@ -120,12 +121,10 @@
 			  </section>
 		  </nav>
 		</div>
-
-		<h2>Product Table</h2>
-
+<!-- 
 		<?php 
 			echo "<p>" . anchor('candystore/newForm','Add New') . "</p>";
-		?>
+		?> -->
 
 	<!-- 	<?php 
 			echo "<p>" . anchor('candystore/signUp', 'Sign Up') . "</p>";
@@ -155,24 +154,33 @@
 		<a href="#" data-reveal-id="myModal" id="modelLink" data-reveal class="button checking">Click Me For A Modal</a> 
 
 		<!-- Code to display candies in a grid format -->
-		<ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4">
+		<ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-3">
 		 	<?php
 		 		foreach($products as $product) {
 		 			echo "<li>";
 
-		 			echo "<img src='" . base_url() . "images/product/" . $product->photo_url . "' width='250px' height='250px'/> <br>";
+		 			echo "<div class=\"row large-6 small-6 columns\">";
+		 			echo "<img align\"middle\" src='" . base_url() . "images/product/" . $product->photo_url . "' width='250px' height='150px'/>";
+		 			echo "</div>";
+
+		 			echo "<div class=\"row large-6 small-6 columns\">";
 		 			echo "Name: " . $product->name . "<br>";
 		 			echo "Desc: " . $product->description . "<br>";
 		 			echo "Price: " . $product->price . "<br>";
+		 			echo "</div>";
 
-		 			echo "<ul class='small-block-grid-2 medium-block-grid-2 large-block-grid-2'>";
-		 			echo "<li>" . anchor("candystore/addItem/$product->id",'Add to Cart', 'class="small button success round"') . "</li>";
+		 			echo "<ul class='small-block-grid-3 medium-block-grid-3 large-block-grid-3'>";
+		 			echo "<li>" . anchor("candystore/addItem/$product->id",'Add to Cart', 'id="addItem" class="small button success round"') . "</li>";
+		 			
+		 			// echo "<li><button id=\"addItem\" type=\"button\"class=\"small button success round\">Add to Cart</button></li>";
 		 			// (Idea) Make this pop-up a modal to view the details
 		 			// echo "<li>" . anchor("candystore/read/$product->id",'View') . "</li>";
 		 			if(array_key_exists($product->id, $_SESSION['cart'])) {
+		 				echo "<li>" . anchor("candystore/removeItem/$product->id",'Remove from Cart', 'id="removeItem" class="small button alert round"') . "</li>";
 		 				echo "<li> Qty: " . $_SESSION['cart'][$product->id]['qty'] . "</li>"; 
 		 			}
 		 			else {
+		 				echo "<li></li>";
 		 				echo "<li> Qty: 0</li>"; 
 		 			}
 		 			echo "</ul>";
@@ -186,18 +194,17 @@
 
 	<!-- To close the sign up pop-up -->
 	<script>
-		// $('#modelLink').click(function() {
-			// alert("Hello");
-		// 	$('#myModal').foundation('reveal', 'open');
-		// });
-
-		// $("a.checking").trigger("click");
-
 		$('#signedUpClose').click(function() {
 			$('#myModal').foundation('reveal', 'close');
 			// $('#myModal').foundation('reveal', 'open');
 		});
+		// $('#addItem').click(function(e) {
+		// 	e.preventDefault();
+		// 	$('#cart').load('homePage.php');
+		// });
 	</script>
+
+	<!-- To update the cart -->
 
       	<script src="<?php echo base_url("js/foundation.min.js"); ?>"></script>
       	<script>

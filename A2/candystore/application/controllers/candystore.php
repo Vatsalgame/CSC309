@@ -230,5 +230,30 @@ class CandyStore extends CI_Controller {
 		redirect('candystore/index', 'refresh');
 
 	}
+
+	// Function to remove items from the cart
+	function removeItem($id) {
+		// The check for existence of key is already performed in the view,
+		// but checking just to be safe
+		if(array_key_exists($id, $_SESSION['cart'])) {
+			$_SESSION['cart'][$id]['qty'] = $_SESSION['cart'][$id]['qty'] - 1;
+			if ($_SESSION['cart'][$id]['qty'] == 0) {
+				unset($_SESSION['cart'][$id]);
+			} 
+		}
+
+		//Then we redirect to the index page again
+		redirect('candystore/index', 'refresh');
+
+	}
+
+	// // Function to refresh shopping cart
+	// function updateCart() {
+	// 	$this->load->model('product_model');
+ //    		$products = $this->product_model->getAll();
+ //    		$data['products']=$products;
+
+ //    		return $data;
+	// }
 }
 
