@@ -34,22 +34,13 @@
 			    <!-- Right Nav Section -->
 			    <ul class="right">
 			      <!-- <li><a href="#">Shopping Cart</a></li> -->
-			      <li><a href="#" data-dropdown="cart-hover" data-options="is_hover:true">Shopping Cart</a></li>
+			      <li><a href="#" data-dropdown="hover1" data-options="is_hover:true">Shopping Cart</a></li>
 
-				<ul id="cart-hover" class="large content f-dropdown" data-dropdown-content>
-				  <li>Item 1</li>
+				<ul id="hover1" class="large f-dropdown" data-dropdown-content>
+				  <li><a href="#">This is a link</a></li>
 				  <br/>
-				  <li>Item 2</li>
-				  <br/>
-				  <li>Item 3</li>
-				  <br/>
-				   <?php
-				  	foreach ($_SESSION['cart'] as $product) {
-				  		echo "<li>" . $product['name'] . " " . $product['qty'] . " @ $" . $product['price'] . "</li>";
-				  		echo "<br/>";
-				  		// echo "<li><p>" . $product . "</p></li>";
-				  	}
-				  ?>
+				  <li><a href="#">This is another</a></li>
+				  <li><a href="#">Yet another</a></li>
 				</ul>
 			      <li class="divider"></li>
 
@@ -141,21 +132,15 @@
 		 		foreach($products as $product) {
 		 			echo "<li>";
 
-		 			echo "<img src='" . base_url() . "images/product/" . $product->photo_url . "' width='250px' height='250px'/> <br>";
+		 			echo "<img src='" . base_url() . "images/product/" . $product->photo_url . "' width='250px'/> <br>";
 		 			echo "Name: " . $product->name . "<br>";
 		 			echo "Desc: " . $product->description . "<br>";
 		 			echo "Price: " . $product->price . "<br>";
 
-		 			echo "<ul class='small-block-grid-2 medium-block-grid-2 large-block-grid-2'>";
-		 			echo "<li>" . anchor("candystore/addItem/$product->id",'Add to Cart', 'class="small button success round"') . "</li>";
-		 			// (Idea) Make this pop-up a modal to view the details
-		 			// echo "<li>" . anchor("candystore/read/$product->id",'View') . "</li>";
-		 			if(array_key_exists($product->id, $_SESSION['cart'])) {
-		 				echo "<li> Qty: " . $_SESSION['cart'][$product->id]['qty'] . "</li>"; 
-		 			}
-		 			else {
-		 				echo "<li> Qty: 0</li>"; 
-		 			}
+		 			echo "<ul class='small-block-grid-3 medium-block-grid-3 large-block-grid-3'>";
+		 			echo "<li>" . anchor("candystore/delete/$product->id",'Delete',"onClick='return confirm(\"Do you really want to delete this record?\");'") . "</li>";
+		 			echo "<li>" . anchor("candystore/editForm/$product->id",'Edit') . "</li>";
+		 			echo "<li>" . anchor("candystore/read/$product->id",'View') . "</li>";
 		 			echo "</ul>";
 
 		 			echo "</li>";

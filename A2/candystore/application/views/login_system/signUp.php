@@ -31,12 +31,22 @@
 			    
 			    <!-- Left Nav Section -->
 			    <ul class="left">
-			      <li><a href="#">Home/Browse Candies</a></li>
+			      <!-- <li><a href="#">Home/Browse Candies</a></li> -->
+			      <?php
+			      	echo "<li>" . anchor('candystore/index', 'Home/Browse Candies') . "</li>";
+			      ?>
 			    </ul>
 
 			    <!-- Right Nav Section -->
 			    <ul class="right">
-			      <li><a href="#">Shopping Cart</a></li>
+			      <!-- <li><a href="#">Shopping Cart</a></li> -->
+			      <li><a href="#" data-dropdown="hover1" data-options="is_hover:true">Shopping Cart</a></li>
+
+				<ul id="hover1" class="content f-dropdown" data-dropdown-content>
+				  <li><a href="#">This is a link</a></li>
+				  <li><a href="#">This is another</a></li>
+				  <li><a href="#">Yet another</a></li>
+				</ul>
 			    </ul>
 			  </section>
 		  </nav>

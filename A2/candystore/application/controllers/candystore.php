@@ -2,6 +2,8 @@
 // starting the session for login functionality
 session_start();
 
+ini_set('display_errors', 'On');
+error_reporting(E_ALL | E_STRICT);
 
 class CandyStore extends CI_Controller {
    
@@ -34,6 +36,13 @@ class CandyStore extends CI_Controller {
     		// $data['username'] = NULL;
     		// Used if login fails
     		// $data['loginFailed'] = False;
+
+    		// Setting up session stuff
+    		// cart is gonna be a dictionary/hashmap or basically an array in PHP
+    		// a 2D array of [product, qty]
+    		if(!isset($_SESSION['cart'])) {
+    			$_SESSION['cart'] = array();
+    		}
 
     		// $this->load->view('product/list.php',$data);
     		$this->load->view('product/homePage.php', $data);
@@ -194,6 +203,7 @@ class CandyStore extends CI_Controller {
 		}
 	}
 
+	// Function to logout a logged in user
 	function logOut() {
 		if(isset($_SESSION['loggedIn'])) {
 			unset($_SESSION['loggedIn']);
@@ -204,6 +214,21 @@ class CandyStore extends CI_Controller {
 		$data['products']=$products;
 		$data['signedUp'] = False;
 		$this->load->view('product/homePage.php', $data);
+	}
+
+	// Function to add items to the cart
+	function addItem($id) {
+		if(array_key_exists($id, $_SESSION['cart'])) {
+			$_SESSION['cart'][$id]['qty'] = $_SESSION['cart'][$id]['qty'] + 1;
+		}
+		else {
+			$this->load->model('product_model');
+			$product = $this->product_model->get($id);
+			$_SESSION['cart'][$id] = array('name' => $product->name, 'price' => $product->price, 'qty' => 1);
+		}
+		//Then we redirect to the index page again
+		redirect('candystore/index', 'refresh');
+
 	}
 }
 
