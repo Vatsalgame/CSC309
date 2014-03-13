@@ -21,6 +21,7 @@ class CandyStore extends CI_Controller {
 */
 	    		    	
 	    	$this->load->library('upload', $config);
+	    	$this->load->library('session');
 	    	
     }
 
@@ -40,8 +41,11 @@ class CandyStore extends CI_Controller {
     		// Setting up session stuff
     		// cart is gonna be a dictionary/hashmap or basically an array in PHP
     		// a 2D array of [product, qty]
-    		if(!isset($_SESSION['cart'])) {
-    			$_SESSION['cart'] = array();
+    		// if(!isset($_SESSION['cart'])) {
+    		// 	$_SESSION['cart'] = array();
+    		// }
+    		if(!$this->session->userdata('cart')) {
+    			$this->session->set_userdata('cart', array());
     		}
 
     		// $this->load->view('product/list.php',$data);
@@ -168,8 +172,12 @@ class CandyStore extends CI_Controller {
 			// $loggedIn = $loggedIn_customer->result();
 			// Checking if the login was successful
 			if($loggedIn_customer) {
-				$_SESSION['loggedIn'] = True;
-				$_SESSION['username'] = $loggedIn_customer->first;
+				// $_SESSION['loggedIn'] = True;
+				// $_SESSION['username'] = $loggedIn_customer->first;
+
+				$this->session->set_userdata('loggedIn', True);
+				$this->session->set_userdata('username', $loggedIn_customer->first);
+
 				// $data['loggedIn'] = True;
 				// $data['username'] = $loggedIn_customer->first;
 
@@ -205,10 +213,15 @@ class CandyStore extends CI_Controller {
 
 	// Function to logout a logged in user
 	function logOut() {
-		if(isset($_SESSION['loggedIn'])) {
-			unset($_SESSION['loggedIn']);
-			unset($_SESSION['username']);
+		// if(isset($_SESSION['loggedIn'])) {
+		// 	unset($_SESSION['loggedIn']);
+		// 	unset($_SESSION['username']);
+		// }
+		if($this->session->userdata('loggedIn')) {
+			$this->session->unset_userdata('loggedIn');
+			$this->session->unset_userdata('username');
 		}
+
 		$this->load->model('product_model');
 		$products = $this->product_model->getAll();
 		$data['products']=$products;
@@ -218,13 +231,21 @@ class CandyStore extends CI_Controller {
 
 	// Function to add items to the cart
 	function addItem($id) {
-		if(array_key_exists($id, $_SESSION['cart'])) {
-			$_SESSION['cart'][$id]['qty'] = $_SESSION['cart'][$id]['qty'] + 1;
+		// if(array_key_exists($id, $_SESSION['cart'])) {
+		// 	$_SESSION['cart'][$id]['qty'] = $_SESSION['cart'][$id]['qty'] + 1;
+		// }
+		if(array_key_exists($id, $this->session->userdata('cart'))) {
+			$data = $this->session->userdata('cart');
+			$data[$id]['qty'] = $data[$id]['qty'] + 1;
+			$this->session->set_userdata('cart', $data);
 		}
 		else {
 			$this->load->model('product_model');
 			$product = $this->product_model->get($id);
-			$_SESSION['cart'][$id] = array('name' => $product->name, 'price' => $product->price, 'qty' => 1);
+			// $_SESSION['cart'][$id] = array('name' => $product->name, 'price' => $product->price, 'qty' => 1);
+			$data = $this->session->userdata('cart');
+			$data[$id] = array('name' => $product->name, 'price' => $product->price, 'qty' => 1);
+			$this->session->set_userdata('cart', $data);
 		}
 		//Then we redirect to the index page again
 		redirect('candystore/index', 'refresh');
@@ -235,11 +256,19 @@ class CandyStore extends CI_Controller {
 	function removeItem($id) {
 		// The check for existence of key is already performed in the view,
 		// but checking just to be safe
-		if(array_key_exists($id, $_SESSION['cart'])) {
-			$_SESSION['cart'][$id]['qty'] = $_SESSION['cart'][$id]['qty'] - 1;
-			if ($_SESSION['cart'][$id]['qty'] == 0) {
-				unset($_SESSION['cart'][$id]);
-			} 
+		// if(array_key_exists($id, $_SESSION['cart'])) {
+		// 	$_SESSION['cart'][$id]['qty'] = $_SESSION['cart'][$id]['qty'] - 1;
+		// 	if ($_SESSION['cart'][$id]['qty'] == 0) {
+		// 		unset($_SESSION['cart'][$id]);
+		// 	} 
+		// }
+		if(array_key_exists($id, $this->session->userdata('cart'))) {
+			$data = $this->session->userdata('cart');
+			$data[$id]['qty'] = $data[$id]['qty'] - 1;
+			if($data[$id]['qty'] == 0) {
+				unset($data[$id]);
+			}
+			$this->session->set_userdata('cart', $data);
 		}
 
 		//Then we redirect to the index page again

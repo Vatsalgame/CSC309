@@ -48,10 +48,11 @@
 				  	<li><h6 style="color: SlateGray"> Price </h6></li>
 				  </ul>
 				  <!-- <br/> -->
-				   <?php
+				<?php
 				   	$sum_amt = 0;
 				   	$sum_qty = 0;
-				  	foreach ($_SESSION['cart'] as $product) {
+				  	// foreach ($_SESSION['cart'] as $product) {
+				   	foreach ($this->session->userdata('cart') as $product) {
 				  		echo "<ul class=\"small-block-grid-3 medium-block-grid-3 large-block-grid-3\">";
 				  			echo "<li>" . $product['name'] . "</li>";
 				  			echo "<li>" . $product['qty'] . "</li>";
@@ -68,14 +69,27 @@
 				  		echo "<li><h6 style=\"color: SlateGray\">" . $sum_qty . "</h6></li>";
 				  		echo "<li><h6 style=\"color: SlateGray\">" . $sum_amt . "</h6></li>";
 				  	echo "</ul>";
+
+				  	// if(!empty($_SESSION['cart'])) {
+				  	if(!empty($this->session->userdata('cart'))) {
+				  		echo "<ul class=\"small-block-grid-3 medium-block-grid-3 large-block-grid-3\">";
+				  		echo "<li></li>";
+				  		echo "<li></li>";
+				  		echo "<li class='has-form'>" . anchor('ordercontroller/index', 'Checkout', 'class="button"') . "</li>";
+				  		echo "</ul>";
+				  	}
 				  ?>
 				</ul>
 				</div>
 			      <li class="divider"></li>
-
+			      <li>
 			      <?php
-			      	if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
-			      		echo "<li> <a href=\"#\"> Welcome, " . $_SESSION['username'] . "</a></li>";
+			      	// if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
+			      	// 	echo "<li> <a href=\"#\"> Welcome, " . $_SESSION['username'] . "</a></li>";
+			      	// 	echo "<li class=\"has-form\">" . anchor('candystore/logOut', 'Logout', 'class="button alert"') . "</li>";
+			      	// }
+			      	if($this->session->userdata('loggedIn')) {
+			      		echo "<li> <a href=\"#\"> Welcome, " . $this->session->userdata('username') . "</a></li>";
 			      		echo "<li class=\"has-form\">" . anchor('candystore/logOut', 'Logout', 'class="button alert"') . "</li>";
 			      	}
 
@@ -94,11 +108,12 @@
 			      		// echo "<li class=\"has-form\"> 
 			      		// 		<input type=\"submit\" class=\"button success\" value=\"Sign In\"> </li>";
 			      		echo "<li class=\"has-form\"> " . form_submit('submit', 'Sign In', 'class= "button success"'); "</li>";
-			      		echo " <li class=\"divider\"></li>";
+			      		// echo " <li class=\"divider\"></li>";
 			      		echo "<li class='has-form'>" . anchor('logincontroller/index', 'Sign Up', 'class="button"') . "</li>";
 			      	}
 
 			      ?>
+			    </li>
 
 			  <!--     <li class="has-form">
 		      		<input type="text" placeholder="Username" name="username" id="username">
@@ -156,6 +171,7 @@
 		<!-- Code to display candies in a grid format -->
 		<ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-3">
 		 	<?php
+		 		// echo "<div id=\"alterButtons\">";
 		 		foreach($products as $product) {
 		 			echo "<li>";
 
@@ -169,24 +185,31 @@
 		 			echo "Price: " . $product->price . "<br>";
 		 			echo "</div>";
 
+		 			// echo "<div id=\"alterButtons\">";
 		 			echo "<ul class='small-block-grid-3 medium-block-grid-3 large-block-grid-3'>";
 		 			echo "<li>" . anchor("candystore/addItem/$product->id",'Add to Cart', 'id="addItem" class="small button success round"') . "</li>";
-		 			
-		 			// echo "<li><button id=\"addItem\" type=\"button\"class=\"small button success round\">Add to Cart</button></li>";
+		 			// echo "<li><button class=\"addItem small button success round\" value=\"" . $product->id .  "\">Add to Cart</button></li>";
+
 		 			// (Idea) Make this pop-up a modal to view the details
 		 			// echo "<li>" . anchor("candystore/read/$product->id",'View') . "</li>";
-		 			if(array_key_exists($product->id, $_SESSION['cart'])) {
+		 			// if(array_key_exists($product->id, $_SESSION['cart'])) {
+		 			if(array_key_exists($product->id, $this->session->userdata('cart'))) {
 		 				echo "<li>" . anchor("candystore/removeItem/$product->id",'Remove from Cart', 'id="removeItem" class="small button alert round"') . "</li>";
-		 				echo "<li> Qty: " . $_SESSION['cart'][$product->id]['qty'] . "</li>"; 
+		 				// echo "<li><button class=\"removeItem small button alert round\" value=\"" . $product->id .  "\">Remove from Cart</button></li>";
+		 				// echo "<li> Qty: " . $_SESSION['cart'][$product->id]['qty'] . "</li>"; 
+		 				$data = $this->session->userdata('cart');
+		 				echo "<li> Qty: " . $data[$product->id]['qty'] . "</li>"; 
 		 			}
 		 			else {
 		 				echo "<li></li>";
 		 				echo "<li> Qty: 0</li>"; 
 		 			}
 		 			echo "</ul>";
+		 			// echo "</div>";
 
 		 			echo "</li>";
 		 		}
+		 		// echo "</div>";
 		 	?>
 		</ul>
 	</div>
@@ -198,9 +221,36 @@
 			$('#myModal').foundation('reveal', 'close');
 			// $('#myModal').foundation('reveal', 'open');
 		});
-		// $('#addItem').click(function(e) {
-		// 	e.preventDefault();
-		// 	$('#cart').load('homePage.php');
+		// $('button.addItem').click(function() {
+		// 	// e.preventDefault();
+		// 	$.ajax({
+		// 	    type: 'post',
+		// 	    url: 'candystore/addItem/' + $(this).attr("value"),
+		// 	    dataType: 'html',
+		// 	    success: function () {
+		// 	      // success callback -- replace the div's innerHTML with
+		// 	      // the response from the server.
+		// 	      // $('#cart').html(html);
+		// 	      $('#cart').load('candystore/index #cart');
+		// 	      $('#alterButtons').load('candystore/index #alterButtons');
+		// 	      // $('#candies').load('candystore/index #candies');
+		// 	    }
+		// 	  });
+		// });
+		// $('button.removeItem').click(function() {
+		// 	// e.preventDefault();
+		// 	$.ajax({
+		// 	    type: 'post',
+		// 	    url: 'candystore/removeItem/' + $(this).attr("value"),
+		// 	    dataType: 'html',
+		// 	    success: function () {
+		// 	      // success callback -- replace the div's innerHTML with
+		// 	      // the response from the server.
+		// 	      // $('#cart').html(html);
+		// 	      $('#cart').load('candystore/index #cart');
+		// 	      // $('#candies').load('candystore/index #candies');
+		// 	    }
+		// 	  });
 		// });
 	</script>
 
