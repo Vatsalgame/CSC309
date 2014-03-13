@@ -36,19 +36,38 @@
 			      <!-- <li><a href="#">Shopping Cart</a></li> -->
 			      <li><a href="#" data-dropdown="cart-hover" data-options="is_hover:true">Shopping Cart</a></li>
 
-				<ul id="cart-hover" class="large content f-dropdown" data-dropdown-content>
-				  <li>Item 1</li>
+				<ul id="cart-hover" class="medium content f-dropdown" data-dropdown-content>
+				  <!-- <li>Item 1</li>
 				  <br/>
 				  <li>Item 2</li>
 				  <br/>
-				  <li>Item 3</li>
-				  <br/>
+				  <li>Item 3</li> -->
+				  <ul class="small-block-grid-3 medium-block-grid-3 large-block-grid-3">
+				  	<li><h6 style="color: SlateGray"> Candy </h6></li>
+				  	<li><h6 style="color: SlateGray"> Quantity </h6></li>
+				  	<li><h6 style="color: SlateGray"> Price </h6></li>
+				  </ul>
+				  <!-- <br/> -->
 				   <?php
+				   	$sum_amt = 0;
+				   	$sum_qty = 0;
 				  	foreach ($_SESSION['cart'] as $product) {
-				  		echo "<li>" . $product['name'] . " " . $product['qty'] . " @ $" . $product['price'] . "</li>";
-				  		echo "<br/>";
-				  		// echo "<li><p>" . $product . "</p></li>";
+				  		echo "<ul class=\"small-block-grid-3 medium-block-grid-3 large-block-grid-3\">";
+				  			echo "<li>" . $product['name'] . "</li>";
+				  			echo "<li>" . $product['qty'] . "</li>";
+				  			echo "<li>" . $product['price'] . "</li>";
+				  		echo "</ul>";
+				  		$sum_amt = $sum_amt + ($product['qty'] * $product['price']);
+				  		$sum_qty = $sum_qty + ($product['qty']);
+				  		// echo "<li>" . $product['name'] . " " . $product['qty'] . " @ $" . $product['price'] . "</li>";
+				  		// echo "<br/>";
 				  	}
+
+				  	echo "<ul class=\"small-block-grid-3 medium-block-grid-3 large-block-grid-3\">";
+				  		echo "<li><h6 style=\"color: SlateGray\"> Total </h6></li>";
+				  		echo "<li><h6 style=\"color: SlateGray\">" . $sum_qty . "</h6></li>";
+				  		echo "<li><h6 style=\"color: SlateGray\">" . $sum_amt . "</h6></li>";
+				  	echo "</ul>";
 				  ?>
 				</ul>
 			      <li class="divider"></li>
