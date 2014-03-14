@@ -71,7 +71,7 @@
 				  	echo "</ul>";
 
 				  	// if(!empty($_SESSION['cart'])) {
-				  	if(!empty($this->session->userdata('cart'))) {
+				  	if($this->session->userdata('cart')) {
 				  		echo "<ul class=\"small-block-grid-3 medium-block-grid-3 large-block-grid-3\">";
 				  		echo "<li></li>";
 				  		echo "<li></li>";

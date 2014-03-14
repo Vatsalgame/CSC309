@@ -94,7 +94,7 @@ class CandyStore extends CI_Controller {
 	function signUp() {
 		// $this->load->model('product_model');
 		$data['signUpError'] = NULL;
-		$data['validationErrors'] = [];
+		$data['validationErrors'] = array();
 		// $this->load->view('login_system/signUp.php', $data);
 		$this->load->view('login_system/signUpPage.php', $data);
 	}
@@ -152,7 +152,7 @@ class CandyStore extends CI_Controller {
 		redirect('candystore/index', 'refresh');
 	}
 
-	// Function to log in a customer/admin
+	// // Function to log in a customer/admin
 	function logIn() {
 		$this->load->model('customer_model');
 		$this->load->model('customer');
@@ -211,7 +211,7 @@ class CandyStore extends CI_Controller {
 		}
 	}
 
-	// Function to logout a logged in user
+	// // Function to logout a logged in user
 	function logOut() {
 		// if(isset($_SESSION['loggedIn'])) {
 		// 	unset($_SESSION['loggedIn']);
@@ -252,7 +252,7 @@ class CandyStore extends CI_Controller {
 
 	}
 
-	// Function to remove items from the cart
+	// // Function to remove items from the cart
 	function removeItem($id) {
 		// The check for existence of key is already performed in the view,
 		// but checking just to be safe
