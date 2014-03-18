@@ -34,6 +34,25 @@
     	redirect('ordercontroller/index', 'refresh');
     }
 
+    function deleteOrder($id) {
+        $this->load->model('order_model');
+        $this->load->model('order');
+
+        if (isset($id)) 
+            $this->order_model->delete($id);
+
+        redirect('ordercontroller/loadOrders', 'refresh');
+    }
+
+        function deleteAllOrders() {
+        $this->load->model('order_model');
+        $this->load->model('order');
+
+        // add code
+
+        redirect('ordercontroller/loadOrders', 'refresh');
+    }
+
     function updateOrderItem() {
     	error_log("yo");
     	foreach ($this->session->userdata('cart') as $id => $product) {
@@ -229,6 +248,17 @@
         $this->email->message($message);  
 
         $this->email->send();
+    }
+
+    // admin functions
+    function loadOrders() {
+        $this->load->model('order_model');
+        $this->load->model('order');
+
+        $orders = $this->order_model->getAll();
+        $data['orders']=$orders;
+
+        $this->load->view('order_system/orders_admin.php', $data);
     }
 
 }

@@ -28,80 +28,49 @@
 			      <!-- <li><a href="#">Home/Browse Candies</a></li> -->
 			      <?php
 			      	echo "<li>" . anchor('candystore/index', 'Home/Browse Candies') . "</li>";
+
+			      	echo "<li>" . anchor('ordercontroller/loadOrders', 'Browse Orders') . "</li>";
 			      ?>
 			    </ul>
 
 			    <!-- Right Nav Section -->
 			    <ul class="right">
 			      <!-- <li><a href="#">Shopping Cart</a></li> -->
-			      <li><a href="#" data-dropdown="hover1" data-options="is_hover:true">Shopping Cart</a></li>
-
-				<ul id="hover1" class="large f-dropdown" data-dropdown-content>
-				  <li><a href="#">This is a link</a></li>
-				  <br/>
-				  <li><a href="#">This is another</a></li>
-				  <li><a href="#">Yet another</a></li>
-				</ul>
-			      <li class="divider"></li>
-
+			      <li>
 			      <?php
-			      	if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
-			      		echo "<li> <a href=\"#\"> Welcome, " . $_SESSION['username'] . "</a></li>";
+			      	if($this->session->userdata('loggedIn')) {
+			      		echo "<li> <a href=\"#\"> Welcome, " . $this->session->userdata('username') . "</a></li>";
 			      		echo "<li class=\"has-form\">" . anchor('candystore/logOut', 'Logout', 'class="button alert"') . "</li>";
 			      	}
-
-			      	else {
-			      		echo form_open_multipart('candystore/logIn');
-
-			      		echo " <li class=\"has-form\">
-		      					<input type=\"text\" placeholder=\"Username\" name=\"username\" id=\"username\">
-			      			</li>";
-		      			// echo form_error('username');
-			     		echo " <li class=\"has-form\">
-		      					<input type=\"password\" placeholder=\"Password\" name=\"password\" id=\"password\">
-			      			</li>";
-			      		// echo form_error('password');
-			      		// echo " <li class=\"has-form\">" . anchor('candystore/logIn', 'Sign In', 'class="button success"') . "</li>";
-			      		// echo "<li class=\"has-form\"> 
-			      		// 		<input type=\"submit\" class=\"button success\" value=\"Sign In\"> </li>";
-			      		echo "<li class=\"has-form\"> " . form_submit('submit', 'Sign In', 'class= "button success"'); "</li>";
-			      		echo " <li class=\"divider\"></li>";
-			      		echo "<li class='has-form'>" . anchor('logincontroller/index', 'Sign Up', 'class="button"') . "</li>";
-			      	}
+			      	// Don't need an else case as only the admin would be redirected to this page (and only after he/she has logged in)
 
 			      ?>
-
-			  <!--     <li class="has-form">
-		      		<input type="text" placeholder="Username" name="username" id="username">
-			      </li>
-			      <li class="has-form">
-		      		<input type="text" placeholder="Password" name="password" id="password">
-			      </li>
-			      <li class="has-form">
-		      		<a href="#" class="button success">Sign In</a>
-			      </li>
-			      <li class="divider"></li> -->
-			      <!-- <li class="has-form">
-		      		<a href="#" class="button">Sign Up</a>
-			      </li> -->
-			      <!-- The first argument of anchor takes the path to the controller function -->
-			<!--       <?php
-			      	// echo "<li class='has-form'>" . anchor('logincontroller/index', 'Sign Up', 'class="button"') . "</li>";
-			      ?> -->
+			    </li>
 			    </ul>
 			  </section>
 		  </nav>
 		</div>
 
-		<h2>Product Table</h2>
+		<div class="row">
+			<ul class="small-block-grid-3 medium-block-grid-3 large-block-grid-3">
+			<li> </li>
+			<li>
+				<h2>Product Table</h2>
+			</li>
+			<li> </li>
+			</ul>
 
-		<?php 
-			echo "<p>" . anchor('candystore/newForm','Add New') . "</p>";
-		?>
+			<ul class="small-block-grid-3 medium-block-grid-3 large-block-grid-3">
+			<li> </li>
+			<li>
+				<?php 
+					echo "<p>" . anchor('candystore/newForm','Add a new Product', 'class="button middle"') . "</p>";
+				?>
+			</li>
+			<li> </li>
+			</ul>
+		</div>
 
-	<!-- 	<?php 
-			echo "<p>" . anchor('candystore/signUp', 'Sign Up') . "</p>";
-		?> -->
 
 		<!-- The sign up pop-up -->
 		<div id="myModal" class="reveal-modal" data-reveal>
@@ -113,15 +82,6 @@
 		  </div>
 		  <a class="close-reveal-modal">&#215;</a>
 		</div>
-
-		<?php
-			if(defined($signedUp)) {
-				if($signedUp) {
-					echo "<script> alert(\"Thank you for signing up! \"); </script>";
-					// echo "<script> $('#myModal').foundation('reveal', 'open'); </script>";
-				}
-			}
-		?>
 		
 		<!-- Hidden link to open the model -->
 		<a href="#" data-reveal-id="myModal" id="modelLink" data-reveal class="button checking">Click Me For A Modal</a> 
@@ -147,18 +107,23 @@
 		 		}
 		 	?>
 		</ul>
+
+		<div class="row">
+			<ul class="small-block-grid-3 medium-block-grid-3 large-block-grid-3">
+			<li> </li>
+			<li>
+				<?php 
+					echo "<p>" . anchor('candystore/newForm','Add a new Product', 'class="button middle"') . "</p>";
+				?>
+			</li>
+			<li> </li>
+			</ul>
+		</div>
 	</div>
 
 
 	<!-- To close the sign up pop-up -->
 	<script>
-		// $('#modelLink').click(function() {
-			// alert("Hello");
-		// 	$('#myModal').foundation('reveal', 'open');
-		// });
-
-		// $("a.checking").trigger("click");
-
 		$('#signedUpClose').click(function() {
 			$('#myModal').foundation('reveal', 'close');
 			// $('#myModal').foundation('reveal', 'open');

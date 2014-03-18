@@ -48,8 +48,16 @@ class CandyStore extends CI_Controller {
     			$this->session->set_userdata('cart', array());
     		}
 
+		if($this->session->userdata('loggedIn')) {
+			if(strcmp($this->session->userdata('username'), 'Admin') == 0)
+				$this->load->view('product/homePage_admin.php', $data);
+		}
+		else {
+			$this->load->view('product/homePage.php', $data);
+		}
+
     		// $this->load->view('product/list.php',$data);
-    		$this->load->view('product/homePage.php', $data);
+    		// $this->load->view('product/homePage.php', $data);
     }
     
     function newForm() {
@@ -166,49 +174,69 @@ class CandyStore extends CI_Controller {
 			$customer->login = $this->input->get_post('username');
 			$customer->password = $this->input->get_post('password');
 
-			// echo $customer->login;
-			// echo $customer->password;
-			$loggedIn_customer = $this->customer_model->getLogin($customer->login, $customer->password);
-			// $loggedIn = $loggedIn_customer->result();
-			// Checking if the login was successful
-			if($loggedIn_customer) {
-				// $_SESSION['loggedIn'] = True;
-				// $_SESSION['username'] = $loggedIn_customer->first;
-
+			if(strcmp($customer->login, 'admin') == 0 && strcmp($customer->password, 'admin') == 0) {
 				$this->session->set_userdata('loggedIn', True);
-				$this->session->set_userdata('username', $loggedIn_customer->first);
-				$this->session->set_userdata('userId', $loggedIn_customer->id);
+				$this->session->set_userdata('username', 'Admin');
+				$this->session->set_userdata('userId', 0);
 
-				// $data['loggedIn'] = True;
-				// $data['username'] = $loggedIn_customer->first;
+				// $this->load->model('product_model');
+	   //  			$products = $this->product_model->getAll();
+	   //  			$data['products']=$products;
+	   //  			$data['signedUp'] = False;
 
-				$this->load->model('product_model');
-	    			$products = $this->product_model->getAll();
-	    			$data['products']=$products;
-	    			$data['signedUp'] = False;
-	    			$this->load->view('product/homePage.php', $data);
-			}
+	   //  			$this->load->view('product/homePage_admin.php', $data);
+				redirect('candystore/index', 'refresh');
+
+			} 
 			else {
-				// $data['loginFailed'] = True;
+				// echo $customer->login;
+				// echo $customer->password;
+				$loggedIn_customer = $this->customer_model->getLogin($customer->login, $customer->password);
+				// $loggedIn = $loggedIn_customer->result();
+				// Checking if the login was successful
+				if($loggedIn_customer) {
+					// $_SESSION['loggedIn'] = True;
+					// $_SESSION['username'] = $loggedIn_customer->first;
 
-				$this->load->model('product_model');
-	    			$products = $this->product_model->getAll();
-	    			$data['products']=$products;
-	    			$data['signedUp'] = False;
-	    			// $data['loggedIn'] = False;
-	    			// $data['username'] = NULL;
-	    			$this->load->view('product/homePage.php', $data);
+					$this->session->set_userdata('loggedIn', True);
+					$this->session->set_userdata('username', $loggedIn_customer->first);
+					$this->session->set_userdata('userId', $loggedIn_customer->id);
+
+					// $data['loggedIn'] = True;
+					// $data['username'] = $loggedIn_customer->first;
+
+					// $this->load->model('product_model');
+		   //  			$products = $this->product_model->getAll();
+		   //  			$data['products']=$products;
+		   //  			$data['signedUp'] = False;
+		   //  			$this->load->view('product/homePage.php', $data);
+					redirect('candystore/index', 'refresh');
+				}
+				else {
+					// $data['loginFailed'] = True;
+
+					// $this->load->model('product_model');
+		   //  			$products = $this->product_model->getAll();
+		   //  			$data['products']=$products;
+		   //  			$data['signedUp'] = False;
+		   //  			// $data['loggedIn'] = False;
+		   //  			// $data['username'] = NULL;
+		   //  			$this->load->view('product/homePage.php', $data);
+					redirect('candystore/index', 'refresh');
+				}
+
 			}
 		}
 		else {
-			$this->load->model('product_model');
-    			$products = $this->product_model->getAll();
-    			$data['products']=$products;
-    			$data['signedUp'] = False;
-    			// $data['loggedIn'] = False;
-    			// $data['username'] = NULL;
-    			// $data['loginFailed'] = False;
-    			$this->load->view('product/homePage.php', $data);	
+			// $this->load->model('product_model');
+   //  			$products = $this->product_model->getAll();
+   //  			$data['products']=$products;
+   //  			$data['signedUp'] = False;
+   //  			// $data['loggedIn'] = False;
+   //  			// $data['username'] = NULL;
+   //  			// $data['loginFailed'] = False;
+   //  			$this->load->view('product/homePage.php', $data);	
+			redirect('candystore/index', 'refresh');
 		}
 	}
 
@@ -288,5 +316,7 @@ class CandyStore extends CI_Controller {
 
  //    		return $data;
 	// }
+
+	// all admin functions
 }
 
