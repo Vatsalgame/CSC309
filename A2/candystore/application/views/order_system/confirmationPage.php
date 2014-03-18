@@ -21,7 +21,7 @@
 			    <!-- <li class="name"> -->
 			      <!-- <h1><a href="index">CandyStore</a></h1> -->
 			      <?php
-			      	echo "<li class='name'><h1>" . anchor('candystore/index', 'CandyStore') . "</li><h1>";
+			      	echo "<li class='name'><h1>" . anchor('ordercontroller/goHome', 'CandyStore') . "</li><h1>";
 			      ?>
 			    <!-- </li> -->
 			    <li class="toggle-topbar menu-icon"><a href="#"></a></li>
@@ -112,8 +112,7 @@
 		  	echo "</ul>";
 		  	echo "</li>";
 
-		  	echo "<li class=\"cta-button\">" . anchor("ordercontroller/#", 'Print Receipt', 'class=button success') . "    " 
-		  					. anchor("ordercontroller/#", 'Email Receipt', 'class=button') . "</li>";
+		  	echo "<li class=\"cta-button\"> <a href=\"#\" onclick=\"window.print(); return false;\" class=\"button success\"> Print Receipt </a> </li>";
 		  ?>
 
 		</ul>

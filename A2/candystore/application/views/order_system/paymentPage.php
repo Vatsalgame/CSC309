@@ -103,7 +103,7 @@
 					    	<?php
 			    	                        		echo form_error('creditcardnumber');
 					    	?>
-						<input type="text" name="creditcardnumber" id="creditcardnumber" placeholder="1234123412341234" required pattern="[0-9]+"/>
+						<input type="text" maxlength=16 name="creditcardnumber" id="creditcardnumber" placeholder="1234123412341234" required pattern="[0-9]+"/>
 					    </label>
 					    <small class="error"> Credit Card number should contain exactly 16 numbers</small>
 					</div>
@@ -114,7 +114,7 @@
 					        	<?php
 			    	                        		echo form_error('validMonth');
 					    	?>
-					        	<input type="text" name="validMonth" id="validMonth" placeholder="03" required pattern="[0-9]+"/>
+					        	<input type="text" maxlength=2 name="validMonth" id="validMonth" placeholder="MM" required pattern="[0-9]+"/>
 					        </label>
 					        <small class="error"> Month should be a number </small>
 					</div>
@@ -123,7 +123,7 @@
 					        	<?php
 			    	                        		echo form_error('validYear');
 					    	?>
-					        	<input type="text" name="validYear" id="validYear" placeholder="14" required pattern="[0-9]+"/>
+					        	<input type="text" maxlength=2 name="validYear" id="validYear" placeholder="YY " required pattern="[0-9]+"/>
 					        </label>
 					        <small class="error"> Year should be a number </small>
 					</div>

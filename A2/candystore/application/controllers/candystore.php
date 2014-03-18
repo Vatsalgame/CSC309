@@ -218,16 +218,19 @@ class CandyStore extends CI_Controller {
 		// 	unset($_SESSION['loggedIn']);
 		// 	unset($_SESSION['username']);
 		// }
-		if($this->session->userdata('loggedIn')) {
-			$this->session->unset_userdata('loggedIn');
-			$this->session->unset_userdata('username');
-		}
+		// if($this->session->userdata('loggedIn')) {
+		// 	$this->session->unset_userdata('loggedIn');
+		// 	$this->session->unset_userdata('username');
+		// }
 
-		$this->load->model('product_model');
-		$products = $this->product_model->getAll();
-		$data['products']=$products;
-		$data['signedUp'] = False;
-		$this->load->view('product/homePage.php', $data);
+		$this->session->sess_destroy();
+
+		// $this->load->model('product_model');
+		// $products = $this->product_model->getAll();
+		// $data['products']=$products;
+		// $data['signedUp'] = False;
+		// $this->load->view('product/homePage.php', $data);
+		redirect('candystore/index', 'refresh');
 	}
 
 	// Function to add items to the cart

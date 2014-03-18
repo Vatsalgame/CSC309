@@ -113,6 +113,8 @@
             $data['orderDate'] = $order->order_date;
             $data['orderTime'] = $order->order_time;
 
+            $this->sendEmail($data);
+
             $this->load->view('order_system/confirmationPage', $data);
 
         }
@@ -126,6 +128,10 @@
         // error_log($year);
         // error_log($month);
         // error_log($time);
+    }
+
+    function emailReceipt() {
+        alert("Hello");
     }
 
     // // Function to log in a customer/admin
@@ -171,11 +177,58 @@
     }
 
     function logOut() {
-        if($this->session->userdata('loggedIn')) {
-            $this->session->unset_userdata('loggedIn');
-            $this->session->unset_userdata('username');
+        // if($this->session->userdata('loggedIn')) {
+        //     $this->session->unset_userdata('loggedIn');
+        //     $this->session->unset_userdata('username');
+        // }
+        $this->session->sess_destroy();
+        redirect('candystore/index', 'refresh');    
+    }
+
+    function goHome() {
+        $this->session->unset_userdata('cart');
+        redirect('candystore/index', 'refresh');
+    }
+
+    function sendEmail($data) {
+        $this->load->library('email');
+
+        $this->load->model('customer_model');
+        $this->load->model('customer');
+
+        $customer = $this->customer_model->get($this->session->userdata('userId'));
+
+        // error_log($customer->email);
+
+
+        $this->email->from('admin@candystore.com', 'CS Admin');
+        $this->email->to($customer->email); 
+        // $this->email->cc('another@another-example.com'); 
+        // $this->email->bcc('them@their-example.com'); 
+
+        $this->email->subject('CandyStore: Your Order (placed on ' . $data['orderDate'] .')');
+
+        $message = "Credit Card used: " . $data['creditcardnumber'] . "  
+                                Order Details: 
+                                ";
+
+        $sum_amt = 0;
+        $sum_qty = 0;
+
+        foreach ($this->session->userdata('cart') as $id => $product) {
+            $cur_sum_amt = $product['qty'] * $product['price'];
+            $sum_amt = $sum_amt + $cur_sum_amt;
+            $sum_qty = $sum_qty + ($product['qty']);
+
+            $message = $message . $product['name'] . " - " . $product['qty'] . " ($" . $cur_sum_amt . " @ $" . $product['price'] . " each) 
+                                    ";
+
         }
-        redirect('ordercontroller/index', 'refresh');    
+        $message = $message . "Total: " . $sum_qty . " ($ " . $sum_amt . ")";
+
+        $this->email->message($message);  
+
+        $this->email->send();
     }
 
 }
