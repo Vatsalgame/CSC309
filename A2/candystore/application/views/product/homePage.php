@@ -53,13 +53,16 @@
 				   	$sum_qty = 0;
 				  	// foreach ($_SESSION['cart'] as $product) {
 				   	foreach ($this->session->userdata('cart') as $product) {
+				   		$cur_sum_amt = $product['qty'] * $product['price'];
+				   		$sum_amt = $sum_amt + $cur_sum_amt;
+				  		$sum_qty = $sum_qty + ($product['qty']);
+
 				  		echo "<ul class=\"small-block-grid-3 medium-block-grid-3 large-block-grid-3\">";
 				  			echo "<li>" . $product['name'] . "</li>";
 				  			echo "<li>" . $product['qty'] . "</li>";
-				  			echo "<li>" . $product['price'] . "</li>";
+				  			echo "<li>$" . $cur_sum_amt . " @ $" . $product['price'] . " each</li>";
 				  		echo "</ul>";
-				  		$sum_amt = $sum_amt + ($product['qty'] * $product['price']);
-				  		$sum_qty = $sum_qty + ($product['qty']);
+
 				  		// echo "<li>" . $product['name'] . " " . $product['qty'] . " @ $" . $product['price'] . "</li>";
 				  		// echo "<br/>";
 				  	}
@@ -67,7 +70,7 @@
 				  	echo "<ul class=\"small-block-grid-3 medium-block-grid-3 large-block-grid-3\">";
 				  		echo "<li><h6 style=\"color: SlateGray\"> Total </h6></li>";
 				  		echo "<li><h6 style=\"color: SlateGray\">" . $sum_qty . "</h6></li>";
-				  		echo "<li><h6 style=\"color: SlateGray\">" . $sum_amt . "</h6></li>";
+				  		echo "<li><h6 style=\"color: SlateGray\">$" . $sum_amt . "</h6></li>";
 				  	echo "</ul>";
 
 				  	// if(!empty($_SESSION['cart'])) {
@@ -110,6 +113,7 @@
 			      		echo "<li class=\"has-form\"> " . form_submit('submit', 'Sign In', 'class= "button success"'); "</li>";
 			      		// echo " <li class=\"divider\"></li>";
 			      		echo "<li class='has-form'>" . anchor('logincontroller/index', 'Sign Up', 'class="button"') . "</li>";
+			      		echo form_close();
 			      	}
 
 			      ?>
@@ -182,19 +186,19 @@
 		 			echo "<div class=\"row large-6 small-6 columns\">";
 		 			echo "Name: " . $product->name . "<br>";
 		 			echo "Desc: " . $product->description . "<br>";
-		 			echo "Price: " . $product->price . "<br>";
+		 			echo "Price: $" . $product->price . "<br>";
 		 			echo "</div>";
 
 		 			// echo "<div id=\"alterButtons\">";
 		 			echo "<ul class='small-block-grid-3 medium-block-grid-3 large-block-grid-3'>";
-		 			echo "<li>" . anchor("candystore/addItem/$product->id",'Add to Cart', 'id="addItem" class="small button success round"') . "</li>";
+		 			echo "<li>" . anchor("candystore/addItem/$product->id",'Add to Cart', 'id="addItem" class="tiny button success round"') . "</li>";
 		 			// echo "<li><button class=\"addItem small button success round\" value=\"" . $product->id .  "\">Add to Cart</button></li>";
 
 		 			// (Idea) Make this pop-up a modal to view the details
 		 			// echo "<li>" . anchor("candystore/read/$product->id",'View') . "</li>";
 		 			// if(array_key_exists($product->id, $_SESSION['cart'])) {
 		 			if(array_key_exists($product->id, $this->session->userdata('cart'))) {
-		 				echo "<li>" . anchor("candystore/removeItem/$product->id",'Remove from Cart', 'id="removeItem" class="small button alert round"') . "</li>";
+		 				echo "<li>" . anchor("candystore/removeItem/$product->id",'Remove from Cart', 'id="removeItem" class="tiny button alert round"') . "</li>";
 		 				// echo "<li><button class=\"removeItem small button alert round\" value=\"" . $product->id .  "\">Remove from Cart</button></li>";
 		 				// echo "<li> Qty: " . $_SESSION['cart'][$product->id]['qty'] . "</li>"; 
 		 				$data = $this->session->userdata('cart');

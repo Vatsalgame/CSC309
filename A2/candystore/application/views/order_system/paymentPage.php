@@ -90,82 +90,47 @@
 
 	<!-- The data-abide library from Foundation takes care of form validation -->
 	<div class="signUp-Form" data-abide>
-		<!-- Will be used if signing up failed for some reason -->
-		<?php
-			if($signUpError != NULL) {
-				echo "<div data-alert class='alert-box alert'>" . $signUpError . "</div>";
-			}
-			// foreach($validationErrors as $vError) {
-			// 	echo "<div data-alert class='alert-box alert'>" . $vError . "</div>";
-			// }
-		?> 
-		<br/>
 		<div class="row">
 			<!-- <form autocomplete="on" action="addNewCustomer" method="post" accept-charset="utf-8"> -->
 			<?php 
-				echo form_open_multipart('logincontroller/addNewCustomer');
+				echo form_open_multipart('ordercontroller/checkoutPay');
 			?> 
 			    <fieldset>
-			    	<legend>Sign Up</legend>
+			    	<legend>Checkout</legend>
+				<div class="row">
+					<div class="large-12 small-12 columns">
+					    <label> Credit Card Number
+					    	<?php
+			    	                        		echo form_error('creditcardnumber');
+					    	?>
+						<input type="text" name="creditcardnumber" id="creditcardnumber" placeholder="1234123412341234" required pattern="[0-9]+"/>
+					    </label>
+					    <small class="error"> Credit Card number should contain exactly 16 numbers</small>
+					</div>
+				</div>
 				<div class="row">
 					<div class="large-6 small-6 columns">
-					        <label> First Name
+					        <label> Valid Until (Month)
 					        	<?php
-			    	                        		echo form_error('firstName');
+			    	                        		echo form_error('validMonth');
 					    	?>
-					        	<input type="text" name="firstName" id="firstName" placeholder="First Name" required pattern="[a-zA-Z]+"/>
+					        	<input type="text" name="validMonth" id="validMonth" placeholder="03" required pattern="[0-9]+"/>
 					        </label>
-					        <small class="error"> A valid first name is required for signing up. </small>
+					        <small class="error"> Month should be a number </small>
 					</div>
 					<div class="large-6 small-6 columns">
-					        <label> Last Name
+					        <label> Valid Until (Year)
 					        	<?php
-			    	                        		echo form_error('lastName');
+			    	                        		echo form_error('validYear');
 					    	?>
-					        	<input type="text" name="lastName" id="lastName" placeholder="Last Name" required pattern="[a-zA-Z]+"/>
+					        	<input type="text" name="validYear" id="validYear" placeholder="14" required pattern="[0-9]+"/>
 					        </label>
-					        <small class="error"> A valid last name is required for signing up. </small>
+					        <small class="error"> Year should be a number </small>
 					</div>
 				</div>
 				<div class="row">
-					<div class="large-12 small-12 columns">
-					    <label> Login ID
-					    	<?php
-			    	                        		echo form_error('username');
-					    	?>
-						<input type="text" name="username" id="username" placeholder="Username" required pattern="[a-zA-Z]+[0-9a-zA-Z]*"/>
-					    </label>
-					    <small class="error"> Login ID must start with a character and contain only aplha-numerals </small>
-					</div>
-				</div>
-				<div class="row">
-					<div class="large-12 small-12 columns">
-					    <label> Password
-					    	<?php
-			    	                        		echo form_error('password');
-					    	?>
-						<input type="password" name="password" id="password" placeholder="Password" required pattern="[a-zA-Z]+[0-9a-zA-Z]*"/>
-					    </label>
-					    <small class="error"> A valid password (aplha-numeric) is required for signing up. </small>
-					</div>
-				</div>
-				<div class="row">
-					<div class="large-12 small-12 columns">
-					    <label> Email
-					    	<?php
-			    	                        		echo form_error('userEmail');
-					    	?>
-						<input type="email" name="userEmail" id="userEmail" placeholder="email@provider.com" required/>
-					    </label>
-					    <small class="error"> A valid email is required for signing up. </small>
-					</div>
-				</div>
-				<div class="row">
-					<!-- <a href="#" class="button radius right large-5 small-4 columns"> Sign Up </a> -->
 					<?php
-				      		// echo anchor('loginController/addNewCustomer', 'Sign Up', 'class="button radius right large-5 small-4 columns"');
-						echo form_submit('submit', 'Sign Up', 'class= "button radius right large-5 small-4 columns"');
-						// echo form_submit('submit', 'Sign Up');
+						echo form_submit('submit', 'Pay Now', 'class= "button radius right large-5 small-4 columns"');
 				      	?>
 				</div>
 			    </fieldset>

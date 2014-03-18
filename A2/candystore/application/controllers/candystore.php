@@ -177,6 +177,7 @@ class CandyStore extends CI_Controller {
 
 				$this->session->set_userdata('loggedIn', True);
 				$this->session->set_userdata('username', $loggedIn_customer->first);
+				$this->session->set_userdata('userId', $loggedIn_customer->id);
 
 				// $data['loggedIn'] = True;
 				// $data['username'] = $loggedIn_customer->first;

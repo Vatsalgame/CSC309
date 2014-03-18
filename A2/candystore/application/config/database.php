@@ -48,9 +48,9 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'bungle07.cs.toronto.edu';
+// $db['default']['hostname'] = 'bungle07.cs.toronto.edu';
 // change the following line before submitting
-// $db['default']['hostname'] = '127.0.0.1:3306';
+$db['default']['hostname'] = '127.0.0.1:3306';
 $db['default']['username'] = 'g2vatsal';
 $db['default']['password'] = '18128251';
 $db['default']['database'] = 'g2vatsal';  

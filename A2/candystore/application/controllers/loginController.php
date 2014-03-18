@@ -1,5 +1,4 @@
- <?php
-
+<?php
 class LoginController extends CI_Controller {
    
      
@@ -31,6 +30,9 @@ class LoginController extends CI_Controller {
     function addNewCustomer()  {
     	// Pre-validation is already performed using a library from Foundation
 
+    	$this->load->model('customer_model');
+	$this->load->model('customer');
+
     	$this->load->library('form_validation');
 	$this->form_validation->set_rules('firstName','First Name','required|min_length[2]|max_length[24]|alpha');
 	$this->form_validation->set_rules('lastName','Last Name','required|min_length[2]|max_length[24]|alpha');
@@ -39,9 +41,6 @@ class LoginController extends CI_Controller {
 	$this->form_validation->set_rules('userEmail','Email','required|min_length[6]|max_length[45]|valid_email|is_unique[customer.email]');
 
 	if ($this->form_validation->run() == true) {
-		$this->load->model('customer_model');
-		$this->load->model('customer');
-		
 		$customer = new Customer();
 		$customer->first = $this->input->get_post('firstName');
 		$customer->last = $this->input->get_post('lastName');
@@ -62,7 +61,7 @@ class LoginController extends CI_Controller {
 	}
 	else {
 		$data['signUpError'] = "We're sorry as we couldn't sign you up. Kindly Try again :)";
- 		$data['validationErrors'] = [];
+ 		$data['validationErrors'] = array();
  		$this->load->view('login_system/signUp.php', $data);
 		// $this->load->view('login_system/signUpPage.php', $data);
 	}
