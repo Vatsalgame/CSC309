@@ -65,8 +65,8 @@
 			     		echo "<div class=\"large-4 small-9 columns\">
 		      					<input type=\"password\" placeholder=\"Password\" name=\"password\" id=\"password\">
 			      			</div>";
-			      		echo "<div class=\"large-2 small-3 columns\">" . form_submit('submit', 'Sign In', 'class="form-button button expand"') . "</div>";
-			      		echo "<div class=\"large-2 small-3 columns\">" . anchor('logincontroller/index', 'Sign Up', 'class="form-button button expand"') . "</div>";
+			      		echo "<div class=\"large-2 small-3 columns\">" . form_submit('submit', 'Sign In', 'class="button success expand"') . "</div>";
+			      		echo "<div class=\"large-2 small-3 columns\">" . anchor('logincontroller/index', 'Sign Up', 'class="button expand"') . "</div>";
 			      		echo form_close();
 			      		echo "</div></li>";
 			      	}
@@ -115,14 +115,14 @@
 
 		 			// echo "<div id=\"alterButtons\">";
 		 			echo "<ul class='small-block-grid-3 medium-block-grid-3 large-block-grid-3'>";
-		 			echo "<li>" . anchor("candystore/addItem/$product->id",'Add to Cart', 'id="addItem" class="tiny button success round"') . "</li>";
+		 			echo "<li>" . anchor("candystore/addItem/$product->id",'&#43;', 'id="addItem" class="tiny button success"') . "</li>";
 		 			// echo "<li><button class=\"addItem small button success round\" value=\"" . $product->id .  "\">Add to Cart</button></li>";
 
 		 			// (Idea) Make this pop-up a modal to view the details
 		 			// echo "<li>" . anchor("candystore/read/$product->id",'View') . "</li>";
 		 			// if(array_key_exists($product->id, $_SESSION['cart'])) {
 		 			if(array_key_exists($product->id, $this->session->userdata('cart'))) {
-		 				echo "<li>" . anchor("candystore/removeItem/$product->id",'Remove from Cart', 'id="removeItem" class="tiny button alert round"') . "</li>";
+		 				echo "<li>" . anchor("candystore/removeItem/$product->id",'&#45;', 'id="removeItem" class="tiny button alert"') . "</li>";
 		 				// echo "<li><button class=\"removeItem small button alert round\" value=\"" . $product->id .  "\">Remove from Cart</button></li>";
 		 				// echo "<li> Qty: " . $_SESSION['cart'][$product->id]['qty'] . "</li>"; 
 		 				$data = $this->session->userdata('cart');
