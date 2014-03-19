@@ -30,6 +30,8 @@
 			      	echo "<li>" . anchor('candystore/index', 'Home/Browse Candies') . "</li>";
 
 			      	echo "<li>" . anchor('ordercontroller/loadOrders', 'Browse Orders') . "</li>";
+
+			      	echo "<li>" . anchor('logincontroller/loadCustomers', 'Browse Customers') . "</li>";
 			      ?>
 			    </ul>
 

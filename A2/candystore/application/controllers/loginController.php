@@ -66,5 +66,35 @@ class LoginController extends CI_Controller {
 		// $this->load->view('login_system/signUpPage.php', $data);
 	}
     }
+
+    function loadCustomers() {
+        $this->load->model('customer_model');
+        $this->load->model('customer');
+
+        $customers = $this->customer_model->getAll();
+        $data['customers']=$customers;
+
+        $this->load->view('login_system/customers_admin.php', $data);
+    }
+
+    function deleteCustomer($id) {
+        $this->load->model('customer_model');
+        $this->load->model('customer');
+
+        if (isset($id)) 
+            $this->customer_model->delete($id);
+
+        redirect('logincontroller/loadCustomers', 'refresh');
+    }
+
+    function deleteAllCustomers() {
+        $this->load->model('customer_model');
+        $this->load->model('customer');
+
+        $this->customer_model->deleteAll();
+
+        redirect('logincontroller/loadCustomers', 'refresh');
+    }
+
 }
 

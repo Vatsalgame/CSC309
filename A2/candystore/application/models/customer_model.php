@@ -18,6 +18,10 @@ class Customer_model extends CI_Model {
 		return $this->db->delete("customer",array('id' => $id ));
 	}
 	
+	function deleteAll() {
+		return $this->db->empty_table('customer'); 
+	}
+
 	function insert($customer) {
 		return $this->db->insert("customer", array('first' => $customer->first,
 				                                 	        'last' => $customer->last,

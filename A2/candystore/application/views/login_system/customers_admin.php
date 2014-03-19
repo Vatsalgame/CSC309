@@ -56,31 +56,26 @@
 		<div class="row">
 			<!-- Code to display orders in a grid format -->
 			<ul class="pricing-table">
-			  <li class="title">All orders</li>
-			  <li class="description">Feel free to browse/delete orders</li>
+			  <li class="title">All Customers</li>
+			  <li class="description">Feel free to browse/delete customers</li>
 
 			  <li class="bullet-item">
-				  <ul class="small-block-grid-5 medium-block-grid-5 large-block-grid-5">
-				  	<li><h6 style="color: SlateGray"> Customer No. </h6></li>
-				  	<li><h6 style="color: SlateGray"> Order placed </h6></li>
-				  	<li><h6 style="color: SlateGray"> Total Amount </h6></li>
-				  	<li><h6 style="color: SlateGray"> Credit Card Number (Valid Until) </h6></li>
+				  <ul class="small-block-grid-4 medium-block-grid-4 large-block-grid-4">
+				  	<li><h6 style="color: SlateGray"> Customer Name </h6></li>
+				  	<li><h6 style="color: SlateGray"> Login/Username </h6></li>
+				  	<li><h6 style="color: SlateGray"> Email </h6></li>
 				  	<li><h6 style="color: SlateGray"> Remove </h6></li>
 				  </ul>
-
-
 			  </li>
 			  <?php
-			  	foreach($orders as $order) {
+			  	foreach($customers as $customer) {
 			  		echo "<li class=\"bullet-item\">";
 
-			  		echo "<ul class=\"small-block-grid-5 medium-block-grid-5 large-block-grid-5\">";
-			  			echo "<li><h6>" . $order->customer_id . "</h6></li>";
-			  			echo "<li><h6>" . $order->order_date . " / " . $order->order_time . "</h6></li>";
-			  			echo "<li><h6>" . $order->total . "</h6></li>";
-			  			echo "<li><h6>" . 'XXXX-XXXX-XXXX-X' . substr(strval($order->creditcard_number), -3) . 
-			  						"(" . $order->creditcard_month . "/" . $order->creditcard_year . ")" . "</h6></li>";
-			  			echo "<li>" . anchor("ordercontroller/deleteOrder/$order->id", '&#215;', 'class="button alert"') . " </li>";
+			  		echo "<ul class=\"small-block-grid-4 medium-block-grid-4 large-block-grid-4\">";
+			  			echo "<li><h6>" . $customer->first . " " . $customer->last . "</h6></li>";
+			  			echo "<li><h6>" . $customer->login . "</h6></li>";
+			  			echo "<li><h6>" . $customer->email . "</h6></li>";
+			  			echo "<li>" . anchor("logincontroller/deleteCustomer/$customer->id", '&#215;', 'class="button alert"') . " </li>";
 			  		echo "</ul>";
 
 			  		echo "</li>";
@@ -91,7 +86,7 @@
 
 			  <li class="cta-button">
 			  	<?php
-					echo "<li>" . anchor("ordercontroller/deleteAllOrders", 'Delete all orders', 'class="button alert right"') . " </li>";
+					echo "<li>" . anchor("logincontroller/deleteAllCustomers", 'Delete all customers', 'class="button alert right"') . " </li>";
 			  	?>
 			  </li>
 
