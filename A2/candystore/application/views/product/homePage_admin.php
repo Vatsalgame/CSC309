@@ -15,7 +15,7 @@
 			    <!-- <li class="name"> -->
 			      <!-- <h1><a href="index">CandyStore</a></h1> -->
 			       <?php
-			      	echo "<li class='name'><h1>" . anchor('candystore/index', 'CandyStore') . "</li><h1>";
+			      	echo "<li class='name'><h1>" . anchor('candystore/index', 'CandyStore') . "<h1></li>";
 			      ?>
 			    <!-- </li> -->
 			    <li class="toggle-topbar menu-icon"><a href="#"></a></li>

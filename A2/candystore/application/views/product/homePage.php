@@ -3,6 +3,17 @@
   	<meta charset="utf-8" />
     	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
     	<title>CandyStore | HomePage</title>
+    	<style type="text/css">
+    	.top-bar input{
+    		height: auto !important;
+			padding-top: 0.35rem !important;
+			padding-bottom: 0.35rem !important;
+    	}
+    	.form-button{
+    		background-color: #333 !important;
+			border-color: #333 !important;
+    	}
+    	</style>
     	<link rel="stylesheet" href="<?php echo base_url("css/foundation.min.css"); ?>" />
     	<script src="<?php echo base_url("js/vendor/modernizr.js"); ?>"></script>
     	<script src="<?php echo base_url("js/vendor/jquery.js"); ?>"></script>
@@ -15,7 +26,7 @@
 			    <!-- <li class="name"> -->
 			      <!-- <h1><a href="index">CandyStore</a></h1> -->
 			       <?php
-			      	echo "<li class='name'><h1>" . anchor('candystore/index', 'CandyStore') . "</li><h1>";
+			      	echo "<li class='name'><h1>" . anchor('candystore/index', 'CandyStore') . "</h1></li>";
 			      ?>
 			    <!-- </li> -->
 			    <li class="toggle-topbar menu-icon"><a href="#"></a></li>
@@ -35,107 +46,32 @@
 			    <ul class="right">
 			      <!-- <li><a href="#">Shopping Cart</a></li> -->
 			      <li><a href="#" data-dropdown="cart-hover" data-options="is_hover:true">Shopping Cart</a></li>
-			      	<div id="cart">
-				<ul id="cart-hover" class="medium content f-dropdown" data-dropdown-content>
-				  <!-- <li>Item 1</li>
-				  <br/>
-				  <li>Item 2</li>
-				  <br/>
-				  <li>Item 3</li> -->
-				  <ul class="small-block-grid-3 medium-block-grid-3 large-block-grid-3">
-				  	<li><h6 style="color: SlateGray"> Candy </h6></li>
-				  	<li><h6 style="color: SlateGray"> Quantity </h6></li>
-				  	<li><h6 style="color: SlateGray"> Price </h6></li>
-				  </ul>
-				  <!-- <br/> -->
-				<?php
-				   	$sum_amt = 0;
-				   	$sum_qty = 0;
-				  	// foreach ($_SESSION['cart'] as $product) {
-				   	foreach ($this->session->userdata('cart') as $product) {
-				   		$cur_sum_amt = $product['qty'] * $product['price'];
-				   		$sum_amt = $sum_amt + $cur_sum_amt;
-				  		$sum_qty = $sum_qty + ($product['qty']);
+			      
+			      <!-- <li class="divider"></li> -->
 
-				  		echo "<ul class=\"small-block-grid-3 medium-block-grid-3 large-block-grid-3\">";
-				  			echo "<li>" . $product['name'] . "</li>";
-				  			echo "<li>" . $product['qty'] . "</li>";
-				  			echo "<li>$" . $cur_sum_amt . " @ $" . $product['price'] . " each</li>";
-				  		echo "</ul>";
-
-				  		// echo "<li>" . $product['name'] . " " . $product['qty'] . " @ $" . $product['price'] . "</li>";
-				  		// echo "<br/>";
-				  	}
-
-				  	echo "<ul class=\"small-block-grid-3 medium-block-grid-3 large-block-grid-3\">";
-				  		echo "<li><h6 style=\"color: SlateGray\"> Total </h6></li>";
-				  		echo "<li><h6 style=\"color: SlateGray\">" . $sum_qty . "</h6></li>";
-				  		echo "<li><h6 style=\"color: SlateGray\">$" . $sum_amt . "</h6></li>";
-				  	echo "</ul>";
-
-				  	// if(!empty($_SESSION['cart'])) {
-				  	if($this->session->userdata('cart')) {
-				  		echo "<ul class=\"small-block-grid-3 medium-block-grid-3 large-block-grid-3\">";
-				  		echo "<li></li>";
-				  		echo "<li></li>";
-				  		echo "<li class='has-form'>" . anchor('ordercontroller/index', 'Checkout', 'class="button"') . "</li>";
-				  		echo "</ul>";
-				  	}
-				  ?>
-				</ul>
-				</div>
-			      <li class="divider"></li>
-			      <li>
 			      <?php
-			      	// if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
-			      	// 	echo "<li> <a href=\"#\"> Welcome, " . $_SESSION['username'] . "</a></li>";
-			      	// 	echo "<li class=\"has-form\">" . anchor('candystore/logOut', 'Logout', 'class="button alert"') . "</li>";
-			      	// }
 			      	if($this->session->userdata('loggedIn')) {
 			      		echo "<li> <a href=\"#\"> Welcome, " . $this->session->userdata('username') . "</a></li>";
 			      		echo "<li class=\"has-form\">" . anchor('candystore/logOut', 'Logout', 'class="button alert"') . "</li>";
 			      	}
 
 			      	else {
+			      		echo "<li class=\"has-form\"><div class=\"row collapse\">";
 			      		echo form_open_multipart('candystore/logIn');
 
-			      		echo " <li class=\"has-form\">
+			      		echo "<div class=\"large-4 small-9 columns\">
 		      					<input type=\"text\" placeholder=\"Username\" name=\"username\" id=\"username\">
-			      			</li>";
-		      			// echo form_error('username');
-			     		echo " <li class=\"has-form\">
+			      			</div>";
+			     		echo "<div class=\"large-4 small-9 columns\">
 		      					<input type=\"password\" placeholder=\"Password\" name=\"password\" id=\"password\">
-			      			</li>";
-			      		// echo form_error('password');
-			      		// echo " <li class=\"has-form\">" . anchor('candystore/logIn', 'Sign In', 'class="button success"') . "</li>";
-			      		// echo "<li class=\"has-form\"> 
-			      		// 		<input type=\"submit\" class=\"button success\" value=\"Sign In\"> </li>";
-			      		echo "<li class=\"has-form\"> " . form_submit('submit', 'Sign In', 'class= "button success"'); "</li>";
-			      		// echo " <li class=\"divider\"></li>";
-			      		echo "<li class='has-form'>" . anchor('logincontroller/index', 'Sign Up', 'class="button"') . "</li>";
+			      			</div>";
+			      		echo "<div class=\"large-2 small-3 columns\">" . form_submit('submit', 'Sign In', 'class="form-button button expand"') . "</div>";
+			      		echo "<div class=\"large-2 small-3 columns\">" . anchor('logincontroller/index', 'Sign Up', 'class="form-button button expand"') . "</div>";
 			      		echo form_close();
+			      		echo "</div></li>";
 			      	}
 
 			      ?>
-			    </li>
-
-			  <!--     <li class="has-form">
-		      		<input type="text" placeholder="Username" name="username" id="username">
-			      </li>
-			      <li class="has-form">
-		      		<input type="text" placeholder="Password" name="password" id="password">
-			      </li>
-			      <li class="has-form">
-		      		<a href="#" class="button success">Sign In</a>
-			      </li>
-			      <li class="divider"></li> -->
-			      <!-- <li class="has-form">
-		      		<a href="#" class="button">Sign Up</a>
-			      </li> -->
-			      <!-- The first argument of anchor takes the path to the controller function -->
-			<!--       <?php
-			      	// echo "<li class='has-form'>" . anchor('logincontroller/index', 'Sign Up', 'class="button"') . "</li>";
-			      ?> -->
 			    </ul>
 			  </section>
 		  </nav>
@@ -159,6 +95,7 @@
 		  </div>
 		  <a class="close-reveal-modal">&#215;</a>
 		</div>
+
 
 		<?php
 			if(defined($signedUp)) {
@@ -264,4 +201,53 @@
       	<script>
       	 	$(document).foundation();
         	</script>
+    <div id="cart">
+				<ul id="cart-hover" class="medium content f-dropdown" data-dropdown-content>
+				  <!-- <li>Item 1</li>
+				  <br/>
+				  <li>Item 2</li>
+				  <br/>
+				  <li>Item 3</li> -->
+				  <ul class="small-block-grid-3 medium-block-grid-3 large-block-grid-3">
+				  	<li><h6 style="color: SlateGray"> Candy </h6></li>
+				  	<li><h6 style="color: SlateGray"> Quantity </h6></li>
+				  	<li><h6 style="color: SlateGray"> Price </h6></li>
+				  </ul>
+				  <!-- <br/> -->
+				<?php
+				   	$sum_amt = 0;
+				   	$sum_qty = 0;
+				  	// foreach ($_SESSION['cart'] as $product) {
+				   	foreach ($this->session->userdata('cart') as $product) {
+				   		$cur_sum_amt = $product['qty'] * $product['price'];
+				   		$sum_amt = $sum_amt + $cur_sum_amt;
+				  		$sum_qty = $sum_qty + ($product['qty']);
+
+				  		echo "<ul class=\"small-block-grid-3 medium-block-grid-3 large-block-grid-3\">";
+				  			echo "<li>" . $product['name'] . "</li>";
+				  			echo "<li>" . $product['qty'] . "</li>";
+				  			echo "<li>$" . $cur_sum_amt . " @ $" . $product['price'] . " each</li>";
+				  		echo "</ul>";
+
+				  		// echo "<li>" . $product['name'] . " " . $product['qty'] . " @ $" . $product['price'] . "</li>";
+				  		// echo "<br/>";
+				  	}
+
+				  	echo "<ul class=\"small-block-grid-3 medium-block-grid-3 large-block-grid-3\">";
+				  		echo "<li><h6 style=\"color: SlateGray\"> Total </h6></li>";
+				  		echo "<li><h6 style=\"color: SlateGray\">" . $sum_qty . "</h6></li>";
+				  		echo "<li><h6 style=\"color: SlateGray\">$" . $sum_amt . "</h6></li>";
+				  	echo "</ul>";
+
+				  	// if(!empty($_SESSION['cart'])) {
+				  	if($this->session->userdata('cart')) {
+				  		echo "<ul class=\"small-block-grid-3 medium-block-grid-3 large-block-grid-3\">";
+				  		echo "<li></li>";
+				  		echo "<li></li>";
+				  		echo "<li class='has-form'>" . anchor('ordercontroller/index', 'Checkout', 'class="button"') . "</li>";
+				  		echo "</ul>";
+				  	}
+				  ?>
+				</ul>
+				</div>
   </body>
