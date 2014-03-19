@@ -49,7 +49,7 @@ class CandyStore extends CI_Controller {
     		}
 
 		if($this->session->userdata('loggedIn')) {
-			if(strcmp($this->session->userdata('username'), 'Admin') == 0)
+			if(strcmp($this->session->userdata('userId'), 0) == 0)
 				$this->load->view('product/homePage_admin.php', $data);
 			else
 				$this->load->view('product/homePage.php', $data);

@@ -99,8 +99,8 @@
         $time = date('H:i:s');
 
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('creditcardnumber','Credit Card Number','required|min_length[16]|max_length[24]|integer');
-        $this->form_validation->set_rules('validMonth','Valid Until (Month)','required|min_length[1]|max_length[2]|integer|greater_than['.($month-1).']');
+        $this->form_validation->set_rules('creditcardnumber','Credit Card Number','required|min_length[16]|max_length[16]|integer');
+        $this->form_validation->set_rules('validMonth','Valid Until (Month)','required|min_length[1]|max_length[2]|integer');
         $this->form_validation->set_rules('validYear','Valid Until (Year)','required|min_length[1]|max_length[2]|integer|greater_than[' . ($year-1) . ']');
 
         if ($this->form_validation->run() == true) {
@@ -113,28 +113,60 @@
             $order->creditcard_month = $this->input->get_post('validMonth');
             $order->creditcard_year = $this->input->get_post('validYear');
 
-            // get the id of the order just inserted
-            $orderId = $this->order_model->insert($order);
+                if($order->creditcard_year == $year) {
+                        $this->form_validation->set_rules('validMonth','Valid Until (Month)','required|min_length[1]|max_length[2]|integer|greater_than[' . ($month-1) . ']');
+                       if ($this->form_validation->run() == false) {
+                            $this->load->view('order_system/paymentPage.php');
+                       }
+                       else {
+                            // get the id of the order just inserted
+                            $orderId = $this->order_model->insert($order);
 
-            foreach ($this->session->userdata('cart') as $id => $product) {
-                $order_item = new Order_Item();
-                $order_item->order_id = $orderId;
-                $order_item->product_id = $id;
-                $order_item->quantity = $product['qty'];
+                            foreach ($this->session->userdata('cart') as $id => $product) {
+                                $order_item = new Order_Item();
+                                $order_item->order_id = $orderId;
+                                $order_item->product_id = $id;
+                                $order_item->quantity = $product['qty'];
 
-                $this->order_item_model->insert($order_item);
-            }
+                                $this->order_item_model->insert($order_item);
 
-            // $this->session->set_userdata('orderId', $orderId);
+                                // $this->session->set_userdata('orderId', $orderId);
 
-            $data['creditcardnumber'] = 'XXXX-XXXX-XXXX-X' . substr(strval($order->creditcard_number), -3);
-            $data['creditcarddetails'] = strval($order->creditcard_month) . '/' . strval($order->creditcard_year);
-            $data['orderDate'] = $order->order_date;
-            $data['orderTime'] = $order->order_time;
+                                $data['creditcardnumber'] = 'XXXX-XXXX-XXXX-X' . substr(strval($order->creditcard_number), -3);
+                                $data['creditcarddetails'] = strval($order->creditcard_month) . '/' . strval($order->creditcard_year);
+                                $data['orderDate'] = $order->order_date;
+                                $data['orderTime'] = $order->order_time;
 
-            $this->sendEmail($data);
+                                $this->sendEmail($data);
 
-            $this->load->view('order_system/confirmationPage', $data);
+                                $this->load->view('order_system/confirmationPage', $data);
+                            }
+                       }
+                }
+                else {
+                    // get the id of the order just inserted
+                    $orderId = $this->order_model->insert($order);
+
+                    foreach ($this->session->userdata('cart') as $id => $product) {
+                        $order_item = new Order_Item();
+                        $order_item->order_id = $orderId;
+                        $order_item->product_id = $id;
+                        $order_item->quantity = $product['qty'];
+
+                        $this->order_item_model->insert($order_item);
+
+                        // $this->session->set_userdata('orderId', $orderId);
+
+                        $data['creditcardnumber'] = 'XXXX-XXXX-XXXX-X' . substr(strval($order->creditcard_number), -3);
+                        $data['creditcarddetails'] = strval($order->creditcard_month) . '/' . strval($order->creditcard_year);
+                        $data['orderDate'] = $order->order_date;
+                        $data['orderTime'] = $order->order_time;
+
+                        $this->sendEmail($data);
+
+                        $this->load->view('order_system/confirmationPage', $data);
+                    }
+                }
 
         }
         else{

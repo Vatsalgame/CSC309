@@ -48,16 +48,24 @@ class LoginController extends CI_Controller {
 		$customer->password = $this->input->get_post('password');
 		$customer->email = $this->input->get_post('userEmail');
 
-		$this->customer_model->insert($customer);
-		//Then we redirect to the index page again
-		// redirect('/loginController/index', 'refresh');	
-		
-		// redirecting indirectly
-		$this->load->model('product_model');
-		$products = $this->product_model->getAll();
-		$data['products']=$products;
-		$data['signedUp'] = True;
-		$this->load->view('product/homePage.php', $data);
+		if(strcmp(strtolower($customer->login), 'admin') == 0) {
+			$data['signUpError'] = "We're sorry, but you can't sign up as an Admin!";
+	 		$data['validationErrors'] = array();
+	 		$this->load->view('login_system/signUp.php', $data);
+		} 
+
+		else {
+			$this->customer_model->insert($customer);
+			//Then we redirect to the index page again
+			// redirect('/loginController/index', 'refresh');	
+			
+			// redirecting indirectly
+			$this->load->model('product_model');
+			$products = $this->product_model->getAll();
+			$data['products']=$products;
+			$data['signedUp'] = True;
+			$this->load->view('product/homePage.php', $data);
+		}
 	}
 	else {
 		$data['signUpError'] = "We're sorry as we couldn't sign you up. Kindly Try again :)";
