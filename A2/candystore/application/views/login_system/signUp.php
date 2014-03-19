@@ -76,7 +76,7 @@
 				  		echo "<li><h6 style=\"color: SlateGray\">" . $sum_amt . "</h6></li>";
 				  	echo "</ul>";
 
-				  	if(!empty($this->session->userdata('cart'))) {
+				  	if($this->session->userdata('cart')) {
 				  		echo "<li class='has-form'>" . anchor('ordercontroller/index', 'Checkout', 'class="button"') . "</li>";
 				  	}
 				  ?>

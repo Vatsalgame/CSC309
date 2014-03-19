@@ -22,7 +22,7 @@ class LoginController extends CI_Controller {
    	$this->load->model('customer_model');
 	// $data = array('success' => "");
 	$data['signUpError'] = NULL;
-	$data['validationErrors'] = [];
+	$data['validationErrors'] = array();
 	$this->load->view('login_system/signUp.php', $data);
 	// $this->load->view('login_system/signUpPage.php', $data);
     }
