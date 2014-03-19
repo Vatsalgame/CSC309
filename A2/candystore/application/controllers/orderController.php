@@ -48,7 +48,7 @@
         $this->load->model('order_model');
         $this->load->model('order');
 
-        // add code
+        $this->order_model->deleteAll();
 
         redirect('ordercontroller/loadOrders', 'refresh');
     }

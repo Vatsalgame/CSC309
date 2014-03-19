@@ -33,7 +33,7 @@
 			    <ul class="left">
 			      <!-- <li><a href="#">Home/Browse Candies</a></li> -->
 			      <?php
-			      	echo "<li>" . anchor('candystore/index', 'Home/Browse Candies') . "</li>";
+			      	echo "<li>" . anchor('ordercontroller/goHome', 'Home/Browse Candies') . "</li>";
 			      ?>
 			    </ul>
 			  </section>

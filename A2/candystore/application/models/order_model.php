@@ -17,6 +17,10 @@ class Order_model extends CI_Model {
 	function delete($id) {
 		return $this->db->delete("`order`",array('id' => $id ));
 	}
+
+	function deleteAll() {
+		return $this->db->empty_table('`order`'); 
+	}
 	
 	function insert($order) {
 		$this->db->insert("`order`", array('customer_id' => $order->customer_id,
