@@ -85,17 +85,6 @@
 			echo "<p>" . anchor('candystore/signUp', 'Sign Up') . "</p>";
 		?> -->
 
-		<!-- The sign up pop-up -->
-		<div id="myModal" class="reveal-modal" data-reveal>
-		  <h3>Awesome! You've successfully signed up for CandyStore.</h3>
-		  <p class="lead">You're a platinum member now</p>
-		  <p>Being a platinum member, you are not only allowed to look at candy, but also buy as much as you want.</p>
-		  <div class="closeButton">
-		  	<a class="button left" id="signedUpClose"> Gotcha! </a>
-		  </div>
-		  <a class="close-reveal-modal">&#215;</a>
-		</div>
-
 
 		<?php
 			if(defined($signedUp)) {
@@ -105,9 +94,7 @@
 				}
 			}
 		?>
-		
-		<!-- Hidden link to open the model -->
-		<a href="#" data-reveal-id="myModal" id="modelLink" data-reveal class="button checking">Click Me For A Modal</a> 
+		<div class="row" style="margin-top: 45px"> 
 
 		<!-- Code to display candies in a grid format -->
 		<ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-3">
@@ -153,49 +140,8 @@
 		 		// echo "</div>";
 		 	?>
 		</ul>
+		</div>
 	</div>
-
-
-	<!-- To close the sign up pop-up -->
-	<script>
-		$('#signedUpClose').click(function() {
-			$('#myModal').foundation('reveal', 'close');
-			// $('#myModal').foundation('reveal', 'open');
-		});
-		// $('button.addItem').click(function() {
-		// 	// e.preventDefault();
-		// 	$.ajax({
-		// 	    type: 'post',
-		// 	    url: 'candystore/addItem/' + $(this).attr("value"),
-		// 	    dataType: 'html',
-		// 	    success: function () {
-		// 	      // success callback -- replace the div's innerHTML with
-		// 	      // the response from the server.
-		// 	      // $('#cart').html(html);
-		// 	      $('#cart').load('candystore/index #cart');
-		// 	      $('#alterButtons').load('candystore/index #alterButtons');
-		// 	      // $('#candies').load('candystore/index #candies');
-		// 	    }
-		// 	  });
-		// });
-		// $('button.removeItem').click(function() {
-		// 	// e.preventDefault();
-		// 	$.ajax({
-		// 	    type: 'post',
-		// 	    url: 'candystore/removeItem/' + $(this).attr("value"),
-		// 	    dataType: 'html',
-		// 	    success: function () {
-		// 	      // success callback -- replace the div's innerHTML with
-		// 	      // the response from the server.
-		// 	      // $('#cart').html(html);
-		// 	      $('#cart').load('candystore/index #cart');
-		// 	      // $('#candies').load('candystore/index #candies');
-		// 	    }
-		// 	  });
-		// });
-	</script>
-
-	<!-- To update the cart -->
 
       	<script src="<?php echo base_url("js/foundation.min.js"); ?>"></script>
       	<script>
