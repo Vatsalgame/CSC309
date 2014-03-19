@@ -23,7 +23,7 @@ class LoginController extends CI_Controller {
 	// $data = array('success' => "");
 	$data['signUpError'] = NULL;
 	$data['validationErrors'] = [];
-	$this->load->view('login_system/signUp', $data);
+	$this->load->view('login_system/signUp.php', $data);
 	// $this->load->view('login_system/signUpPage.php', $data);
     }
     
