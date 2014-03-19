@@ -55,7 +55,11 @@ class LoginController extends CI_Controller {
 		} 
 
 		else {
-			$this->customer_model->insert($customer);
+			$customerId = $this->customer_model->insert($customer);
+
+			$this->session->set_userdata('loggedIn', True);
+			$this->session->set_userdata('username', $customer->first);
+			$this->session->set_userdata('userId', $customerId);
 			//Then we redirect to the index page again
 			// redirect('/loginController/index', 'refresh');	
 			
@@ -65,6 +69,8 @@ class LoginController extends CI_Controller {
 			$data['products']=$products;
 			$data['signedUp'] = True;
 			$this->load->view('product/homePage.php', $data);
+
+
 		}
 	}
 	else {
