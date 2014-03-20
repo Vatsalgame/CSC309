@@ -36,8 +36,8 @@ class LoginController extends CI_Controller {
     	$this->load->library('form_validation');
 	$this->form_validation->set_rules('firstName','First Name','required|min_length[2]|max_length[24]|alpha');
 	$this->form_validation->set_rules('lastName','Last Name','required|min_length[2]|max_length[24]|alpha');
-	$this->form_validation->set_rules('username','Username','required|min_length[2]|max_length[16]|alpha-dash|is_unique[customer.login]');
-	$this->form_validation->set_rules('password','Password','required|min_length[2]|max_length[16]|alpha_numeric');
+	$this->form_validation->set_rules('username','Username','required|min_length[4]|max_length[16]|alpha-dash|is_unique[customer.login]');
+	$this->form_validation->set_rules('password','Password','required|min_length[6]|max_length[16]|alpha_numeric');
 	$this->form_validation->set_rules('userEmail','Email','required|min_length[6]|max_length[45]|valid_email|is_unique[customer.email]');
 
 	if ($this->form_validation->run() == true) {

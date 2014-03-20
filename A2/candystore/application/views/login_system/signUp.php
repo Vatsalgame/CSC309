@@ -103,6 +103,7 @@
 		<div class="row">
 			<!-- <form autocomplete="on" action="addNewCustomer" method="post" accept-charset="utf-8"> -->
 			<?php 
+				// echo validation_errors();
 				echo form_open_multipart('logincontroller/addNewCustomer');
 			?> 
 			    <fieldset>
@@ -113,7 +114,7 @@
 					        	<?php
 			    	                        		echo form_error('firstName');
 					    	?>
-					        	<input type="text" name="firstName" id="firstName" placeholder="First Name" required pattern="[a-zA-Z]+"/>
+					        	<input type="text" name="firstName" id="firstName" placeholder="First Name" required pattern="[a-zA-Z]+" value="<?php echo set_value('firstName'); ?>" />
 					        </label>
 					        <small class="error"> A valid first name is required for signing up. </small>
 					</div>
@@ -122,7 +123,7 @@
 					        	<?php
 			    	                        		echo form_error('lastName');
 					    	?>
-					        	<input type="text" name="lastName" id="lastName" placeholder="Last Name" required pattern="[a-zA-Z]+"/>
+					        	<input type="text" name="lastName" id="lastName" placeholder="Last Name" required pattern="[a-zA-Z]+" value="<?php echo set_value('lastName'); ?>" />
 					        </label>
 					        <small class="error"> A valid last name is required for signing up. </small>
 					</div>
@@ -133,7 +134,7 @@
 					    	<?php
 			    	                        		echo form_error('username');
 					    	?>
-						<input type="text" name="username" id="username" placeholder="Username" required pattern="[a-zA-Z]+[0-9a-zA-Z]*"/>
+						<input type="text" name="username" id="username" placeholder="Username" required pattern="[a-zA-Z]+[0-9a-zA-Z]*" value="<?php echo set_value('username'); ?>" />
 					    </label>
 					    <small class="error"> Login ID must start with a character and contain only aplha-numerals </small>
 					</div>
@@ -144,7 +145,7 @@
 					    	<?php
 			    	                        		echo form_error('password');
 					    	?>
-						<input type="password" name="password" id="password" placeholder="Password" required pattern="[a-zA-Z]+[0-9a-zA-Z]*"/>
+						<input type="password" name="password" id="password" placeholder="Password" required pattern="[a-zA-Z]+[0-9a-zA-Z]*" value="<?php echo set_value('password'); ?>" />
 					    </label>
 					    <small class="error"> A valid password (aplha-numeric) is required for signing up. </small>
 					</div>
@@ -155,7 +156,7 @@
 					    	<?php
 			    	                        		echo form_error('userEmail');
 					    	?>
-						<input type="email" name="userEmail" id="userEmail" placeholder="email@provider.com" required/>
+						<input type="email" name="userEmail" id="userEmail" placeholder="email@provider.com" required value="<?php echo set_value('userEmail'); ?>" />
 					    </label>
 					    <small class="error"> A valid email is required for signing up. </small>
 					</div>

@@ -57,7 +57,7 @@
 			<ul class="small-block-grid-3 medium-block-grid-3 large-block-grid-3">
 			<li> </li>
 			<li>
-				<h2>Product Table</h2>
+				<!-- <h2>Product Table</h2> -->
 			</li>
 			<li> </li>
 			</ul>
@@ -85,10 +85,10 @@
 			 			echo "Desc: " . $product->description . "<br>";
 			 			echo "Price: " . $product->price . "<br>";
 
-			 			echo "<ul class='small-block-grid-3 medium-block-grid-3 large-block-grid-3'>";
+			 			echo "<ul class='small-block-grid-2 medium-block-grid-2 large-block-grid-2'>";
 			 			echo "<li>" . anchor("candystore/delete/$product->id",'Delete',"onClick='return confirm(\"Do you really want to delete this record?\");'") . "</li>";
 			 			echo "<li>" . anchor("candystore/editForm/$product->id",'Edit') . "</li>";
-			 			echo "<li>" . anchor("candystore/read/$product->id",'View') . "</li>";
+			 			// echo "<li>" . anchor("candystore/read/$product->id",'View') . "</li>";
 			 			echo "</ul>";
 
 			 			echo "</li>";
