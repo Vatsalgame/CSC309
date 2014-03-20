@@ -113,14 +113,15 @@
 			  		echo "<ul class=\"small-block-grid-4 medium-block-grid-4 large-block-grid-4\">";
 			  			echo "<li>" . $product['name'] . "</li>";
 
-			  			echo "<li>
-			  				<div class=\"qty\">
-			  				<input type=\"text\" class=\"right\" name=\"$id\" id=\"$id\" required pattern=\"[0-9]+\" value=\"" . $product['qty'] . 
-			  				"\"/><small class=\"error\"> Quantity must be a number </small>
-			  				</div>
-			  				</li>";
+			  			// echo "<li>
+			  			// 	<div class=\"qty\">
+			  			// 	<input type=\"text\" class=\"right\" name=\"$id\" id=\"$id\" required pattern=\"[0-9]+\" value=\"" . $product['qty'] . 
+			  			// 	"\"/><small class=\"error\"> Quantity must be a number </small>
+			  			// 	</div>
+			  			// 	</li>";
+			  			echo "<li>" . $product['qty'] . "</li>";
 			  			// echo form_error("$id");
-
+			  				// error_log($id);
 			  			echo "<li>$" . $cur_sum_amt . " @ $" . $product['price'] . " each</li>";
 			  			echo "<li>" . anchor("ordercontroller/deleteOrderItem/$id", '&#215;', 'class="button alert"') . " </li>";
 			  		echo "</ul>";

@@ -53,26 +53,28 @@
         redirect('ordercontroller/loadOrders', 'refresh');
     }
 
-    function updateOrderItem() {
-    	error_log("yo");
-    	foreach ($this->session->userdata('cart') as $id => $product) {
-    		$this->load->library('form_validation');
-		$this->form_validation->set_rules($id, "$id",'required|integer');
-		if ($this->form_validation->run() == true) {
-			$data = $this->session->userdata('cart');
-			$qty = $this->input->post($id);
-			error_log($qty);
-	    		$data[$id]['qty'] = $qty;
-	    		// error_log(var_dump($data[$id]));
-	    		$this->session->set_userdata('cart', $data);
-		}
-		else {
-			redirect('ordercontroller/index', 'refresh');
-		}
-    	}
+  //   function updateOrderItem() {
+  //   	// error_log("yo");
+  //   	foreach ($this->session->userdata('cart') as $id => $product) {
+  //   		$this->load->library('form_validation');
+		// $this->form_validation->set_rules("$id", "$id",'required|integer');
+  //                         // error_log("$id");
+		// if ($this->form_validation->run() == true) {
+		// 	$data = $this->session->userdata('cart');
+		// 	$qty = $this->input->post("$id");
+		// 	error_log("id: " . $id . " - " . $qty);
+	 //    		$data[$id]['qty'] = $qty;
+	 //    		// error_log(var_dump($data[$id]));
+	 //    		$this->session->set_userdata('cart', $data);
+		// }
+		// else {
+		// 	// redirect('ordercontroller/index', 'refresh');
+  //                                       $this->load->view('order_system/checkoutPage.php');
+		// }
+  //   	}
 
-    	redirect('ordercontroller/index', 'refresh');
-    }
+  //   	redirect('ordercontroller/index', 'refresh');
+  //   }
 
     function moveToPayment() {
             if(!$this->session->userdata('loggedIn')) {
