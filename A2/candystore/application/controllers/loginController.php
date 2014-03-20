@@ -40,6 +40,8 @@ class LoginController extends CI_Controller {
 	$this->form_validation->set_rules('password','Password','required|min_length[6]|max_length[16]|alpha_numeric');
 	$this->form_validation->set_rules('userEmail','Email','required|min_length[6]|max_length[45]|valid_email|is_unique[customer.email]');
 
+	$this->form_validation->set_message('is_unique', '%s is not available. Please try another term.');
+
 	if ($this->form_validation->run() == true) {
 		$customer = new Customer();
 		$customer->first = $this->input->get_post('firstName');

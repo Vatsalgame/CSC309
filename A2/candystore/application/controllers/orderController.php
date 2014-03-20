@@ -103,6 +103,9 @@
         $this->form_validation->set_rules('validMonth','Valid Until (Month)','required|min_length[1]|max_length[2]|integer');
         $this->form_validation->set_rules('validYear','Valid Until (Year)','required|min_length[1]|max_length[2]|integer|greater_than[' . ($year-1) . ']');
 
+        $this->form_validation->set_message('greater_than', '%s is not valid anymore. Kindly use a valid card.');
+        $this->form_validation->set_message('integer', 'Kindly check the number again.');
+
         if ($this->form_validation->run() == true) {
             $order = new Order();
             $order->customer_id = $this->session->userdata('userId');

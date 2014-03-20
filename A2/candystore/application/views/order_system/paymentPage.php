@@ -104,7 +104,7 @@
 					    	<?php
 			    	                        		echo form_error('creditcardnumber');
 					    	?>
-						<input type="text" maxlength=16 name="creditcardnumber" id="creditcardnumber" placeholder="1234123412341234" required pattern="[0-9]+" value="<?php echo set_value('creditcardnumber'); ?>"/>
+						<input type="text" maxlength=16 name="creditcardnumber" id="creditcardnumber" placeholder="1234123412341234" required pattern="[0-9]{16}" value="<?php echo set_value('creditcardnumber'); ?>"/>
 					    </label>
 					    <small class="error"> Credit Card number should contain exactly 16 numbers</small>
 					</div>
