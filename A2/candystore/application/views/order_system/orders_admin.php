@@ -2,7 +2,7 @@
 <head>
   	<meta charset="utf-8" />
     	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    	<title>CandyStore | HomePage</title>
+    	<title>CandyStore | Orders (Admin)</title>
     	<link rel="stylesheet" href="<?php echo base_url("css/foundation.min.css"); ?>" />
     	<script src="<?php echo base_url("js/vendor/modernizr.js"); ?>"></script>
     	<script src="<?php echo base_url("js/vendor/jquery.js"); ?>"></script>

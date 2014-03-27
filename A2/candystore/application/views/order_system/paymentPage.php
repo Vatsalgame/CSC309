@@ -2,7 +2,7 @@
 <head>
   	<meta charset="utf-8" />
     	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    	<title>CandyStore | Sign Up</title>
+    	<title>CandyStore | Payment</title>
     	<link rel="stylesheet" href="<?php echo base_url("css/foundation.min.css"); ?>" />
     	<script src="<?php echo base_url("js/vendor/modernizr.js"); ?>"></script>
 
@@ -76,7 +76,7 @@
 				  		echo "<li><h6 style=\"color: SlateGray\">" . $sum_amt . "</h6></li>";
 				  	echo "</ul>";
 
-				  	if(!empty($this->session->userdata('cart'))) {
+				  	if($this->session->userdata('cart')) {
 				  		echo "<li class='has-form'>" . anchor('ordercontroller/index', 'Checkout', 'class="button"') . "</li>";
 				  	}
 				  ?>
