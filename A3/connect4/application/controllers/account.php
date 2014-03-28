@@ -6,6 +6,9 @@ class Account extends CI_Controller {
     		// Call the Controller constructor
 	    	parent::__construct();
 	    	session_start();
+
+	    	// loading the captcha supporting library
+	    	$this->load->library('securimage');
     }
         
     public function _remap($method, $params = array()) {
@@ -71,11 +74,12 @@ class Account extends CI_Controller {
     
     function createNew() {
     		$this->load->library('form_validation');
-    	    $this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.login]');
+    	    	$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.login]');
 	    	$this->form_validation->set_rules('password', 'Password', 'required');
 	    	$this->form_validation->set_rules('first', 'First', "required");
 	    	$this->form_validation->set_rules('last', 'last', "required");
 	    	$this->form_validation->set_rules('email', 'Email', "required|is_unique[user.email]");
+	    	$this->form_validation->set_rules('captchacode', 'captchacode', "required|callback_captchaCheck");
 	    	
 	    
 	    	if ($this->form_validation->run() == FALSE)
@@ -100,6 +104,16 @@ class Account extends CI_Controller {
 	    		
 	    		$this->load->view('account/loginForm');
 	    	}
+    }
+
+    function captchaCheck($code) {
+    	if ($this->securimage->check($code) == true)
+		{	return TRUE;
+		}
+		else
+		{	$this->form_validation->set_message('captchaCheck', 'The code in the field didn\'t match the code in the image');
+			return FALSE;
+		}
     }
 
     
@@ -193,6 +207,13 @@ class Account extends CI_Controller {
 	    			$this->load->view('account/recoverPasswordForm',$data);
 	    		}
 	    	}
+    }
+
+    function loadCaptcha() {
+	// $this->load->library('securimage');
+	// $img = new Securimage();
+	// $img->show(); // alternate use: $img->show('/path/to/background.jpg');
+    	$this->securimage->show();
     }    
  }
 

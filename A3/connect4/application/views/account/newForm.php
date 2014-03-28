@@ -47,6 +47,19 @@
 	echo form_label('Email');
 	echo form_error('email');
 	echo form_input('email',set_value('email'),"required");
+
+?>
+
+	<img id="captcha" src="<?=site_url('account/loadCaptcha')?>" alt="CAPTCHA Image" />
+
+	<!-- <input type="text" name="captcha_code" size="10" maxlength="6" /> -->
+	<!-- <a href="#" onclick="document.getElementById('captcha').src = '<?php echo site_url("account/loadCaptcha"); ?>'; return false">[ Different Image ]</a> -->
+
+<?php
+	// echo form_label('CaptchaCode');
+	echo form_error('captchacode');
+	echo form_input('captchacode', set_value(''), "required");
+
 	echo form_submit('submit', 'Register');
 	echo form_close();
 ?>	
