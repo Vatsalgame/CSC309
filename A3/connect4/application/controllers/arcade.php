@@ -191,10 +191,13 @@ class Arcade extends CI_Controller {
 		if (strcmp($user1->login, $login) < 0) {
 			$user1 = $this->user_model->getExclusive($user1->login);
 			$user2 = $this->user_model->getExclusive($login); 
+			// setting turn accordingly
+			$this->session->set_userdata('turn', True);
 		}
 		else {
 			$user2 = $this->user_model->getExclusive($login);
 			$user1 = $this->user_model->getExclusive($user1->login);
+			$this->session->set_userdata('turn', False);
 		}
 			
 		if (!isset($user2) || $user2->user_status_id != User::AVAILABLE) 
