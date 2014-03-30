@@ -40,17 +40,17 @@ class Board extends CI_Controller {
 	    		else
 	    			$otherUser = $this->user_model->getFromId($match->user1_id);
 
-	    		$theArray = [[0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0],
-				[0, 0, 0, 0, 0, 0, 0]];
+	    		$theArray = array(array(0, 0, 0, 0, 0, 0, 0),
+				array(0, 0, 0, 0, 0, 0, 0),
+				array(0, 0, 0, 0, 0, 0, 0),
+				array(0, 0, 0, 0, 0, 0, 0),
+				array(0, 0, 0, 0, 0, 0, 0),
+				array(0, 0, 0, 0, 0, 0, 0));
 
 			$inviter = $this->user_model->getFromId($match->user2_id)->login;
 
 
-			$boardArray = [$theArray, $inviter, -4];
+			$boardArray = array($theArray, $inviter, -4);
 
 			$jsonBoardArray = json_encode($boardArray);
 
@@ -136,7 +136,7 @@ class Board extends CI_Controller {
 		$winner = $this->getWinner($theArray);
 		error_log($winner);
 
-		$boardArray = [$theArray, $username, $winner];
+		$boardArray = array($theArray, $username, $winner);
 
 		$jsonBoardArray = json_encode($boardArray);
 
