@@ -61,10 +61,13 @@
 
 		var otherUser = "<?= $otherUser->login ?>";
 		var user = "<?= $user->login ?>";
+		var user_id = "<?= $user->id ?>";
 		var status = "<?= $status ?>";
 		
+		var yourPiece = user_id;
+		
 		$(function(){
-			$('body').everyTime(2000,function(){
+			/*$('body').everyTime(2000,function(){
 					if (status == 'waiting') {
 						$.getJSON('<?= base_url() ?>arcade/checkInvitation',function(data, text, jqZHR){
 								if (data && data.status=='rejected') {
@@ -98,33 +101,60 @@
 						$('[name=conversation]').val(conversation + "\n" + user + ": " + msg);
 						});
 				return false;
-				});
+				});*/
 
 
 
-			theArray = [[0, 0, 0, 0, 0, 0, 0],
-									[0, 0, 0, 0, 0, 0, 0],
-									[0, 0, 0, 0, 0, 0, 0],
-									[0, 0, 0, 0, 0, 0, 0],
-									[0, 0, 0, 0, 0, 0, 0],
-									[0, 0, 0, 0, 0, 0, 0]]
+			theArray = null;
+			user_turn = null;
 
-			function getBoard(link){
-				$.get(link, function(data){
-
-				})
-			}
-
-			setInterval(function(){
-				// ajax call to update the array
+			function successFunc(){
 				for (var i = 0; i < theArray.length; i++) {
 					for (var j = 0; j < theArray[i].length; j++) {
-						if (theArray[i][j] == -1){
+						if (theArray[i][j] != yourPiece && theArray[i][j] != 0){
 							targetId = '#cell' + i + '' + j;
 							$(targetId).removeClass('cell-empty').addClass('cell-opp');
 						}
-					};
-				};
+					}
+				}
+			};
+
+			function getBoard(link){
+				$.getJSON(link, function(data){
+					theArray = data[0];
+					user_turn = data[1];
+					winner = data[2];
+					// console.log(winner);
+					$("#whose-turn").html(user_turn);
+					if(user == user_turn)
+						successFunc();
+
+					if(winner){
+						if (winner == -2){
+							window.clearInterval(intervalId);
+							alert('Game Tied!');
+							window.location.assign("<?= base_url() ?>");
+						}
+						else if(winner == -4){}
+						else if(winner == yourPiece){
+							window.clearInterval(intervalId);
+							alert('You won!');
+							window.location.assign("<?= base_url() ?>");
+						}
+						else{
+							window.clearInterval(intervalId);
+							alert(otherUser + ' won!');
+							window.location.assign("<?= base_url() ?>");
+						}
+					}
+				});
+			}
+
+			// getBoard("<?= base_url() ?>board/getBoard");
+
+			var intervalId = setInterval(function(){
+				getBoard("<?= base_url() ?>board/getBoard");
+				//check other's win status
 			}, 20);
 
 
@@ -170,17 +200,36 @@
 			}
 
 			$('.cell').click(function(){
-				if (true) {
+				if (user == user_turn) {
 					col = getCellCol($(this));
 					target = whichCell(col, theArray);
 					if(target){
-						theArray[target.row][target.col] = 1
+						theArray[target.row][target.col] = yourPiece;
 						$(target.targetId).removeClass('cell-empty').addClass('cell-your');
 						if(target.row-1 >= 0){
 							hoverCellColor($('#cell' + (target.row-1) + '' + target.col), true);
 						}
-
-						$.post("<?= base_url() ?>board/postBoard", {'array': theArray, 'username': user});
+						user_turn = otherUser;
+						$.post("<?= base_url() ?>board/postBoard", 
+							{'array': theArray, 'username': otherUser}, 
+							function(data){
+								// var winner = data.winner;
+								// console.log(winner);
+								// if(winner){
+								// 	if (winner == -2){
+								// 		window.clearInterval(intervalId);
+								// 		alert('Game Tied!');
+								// 		window.location.assign("<?= base_url() ?>");
+								// 	}
+								// 	else if(winner == -4){}
+								// 	else if(winner == yourPiece){
+								// 		window.clearInterval(intervalId);
+								// 		alert('You won!');
+								// 		window.location.assign("<?= base_url() ?>");
+								// 	}
+								// 	else{}
+								// }
+							}, 'json');
 					}
 					else{
 						alert("You can't place a piece in this column");
@@ -238,6 +287,8 @@
 		<td><b style="color: yellow">YELLOW</b></td>
 	</tr>
 </table>
+
+<div>It's <b id="whose-turn"></b> turn</div>
 
 <span class="legend legend-your" id="indicator"></span>
 <table class="board">

@@ -39,10 +39,27 @@ class Board extends CI_Controller {
 	    			$otherUser = $this->user_model->getFromId($match->user2_id);
 	    		else
 	    			$otherUser = $this->user_model->getFromId($match->user1_id);
+
+	    		$theArray = [[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0]];
+
+			$inviter = $this->user_model->getFromId($match->user2_id)->login;
+
+
+			$boardArray = [$theArray, $inviter, -4];
+
+			$jsonBoardArray = json_encode($boardArray);
+
+			$this->match_model->updateBoard($match->id, $jsonBoardArray);
 	    	}
 	    	
 	    	$data['user']=$user;
 	    	$data['otherUser']=$otherUser;
+
 	    	
 	    	switch($user->user_status_id) {
 	    		case User::PLAYING:	
@@ -98,7 +115,7 @@ class Board extends CI_Controller {
 
  	// Can only call this function if it's your turn
  	// It'll be checked in the view
- 	function postBoard($boardArray) {
+ 	function postBoard() {
 		$this->load->model('user_model');
 		$this->load->model('match_model');
 
@@ -110,18 +127,52 @@ class Board extends CI_Controller {
 			goto error;
 		}
 
+		$theArray = $this->input->post('array'); // not 'items'
+
+		$username = $this->input->post('username'); // not 'items'
+
+		
+
+		$winner = $this->getWinner($theArray);
+		error_log($winner);
+
+		$boardArray = [$theArray, $username, $winner];
+
+		$jsonBoardArray = json_encode($boardArray);
+
+		// $boardArray = json_decode($input, TRUE);
+		// error_log($boardArray);
+		// error_log('mynigga');
+		// return;
+
 		// start transactional mode  
 		$this->db->trans_begin();
 		
 		$match = $this->match_model->get($user->match_id);			
 		
 		// $this->session->set_userdata('cart', array());
-		if($this->session->userdata('turn')) {
-			$this->match_model->updateBoard($match->id, $boardArray);
+		$this->match_model->updateBoard($match->id, $jsonBoardArray);
+
+		if ($winner == -2) {
+			$status = 4;
+			$this->user_model->updateStatus($match->user1_id, 2);
+			$this->user_model->updateStatus($match->user2_id, 2);
+		}
+		elseif ($winner == -4) {
+			$status = 1;
+		}
+		elseif ($winner == $match->user1_id) {
+			$status = 2;
+			$this->user_model->updateStatus($match->user1_id, 2);
+			$this->user_model->updateStatus($match->user2_id, 2);
 		}
 		else {
-			goto error;
+			$status = 3;
+			$this->user_model->updateStatus($match->user1_id, 2);
+			$this->user_model->updateStatus($match->user2_id, 2);
 		}
+
+		$this->match_model->updateStatus($match->id, $status);
 
 		if ($this->db->trans_status() === FALSE) {
 			$errormsg = "Transaction error";
@@ -131,7 +182,7 @@ class Board extends CI_Controller {
 		// if all went well commit changes
 		$this->db->trans_commit();
 			
-		echo json_encode(array('status'=>'success'));
+		echo json_encode(array('status'=>'success', 'winner'=>$winner));
 		 
 		return;
  		
@@ -193,31 +244,86 @@ class Board extends CI_Controller {
  		$user = $_SESSION['user'];
  		 
  		$user = $this->user_model->get($user->login);
- 		if ($user->user_status_id != User::PLAYING) {	
- 			$errormsg="Not in PLAYING state";
- 			goto error;
- 		}
+ 		// if ($user->user_status_id != User::PLAYING && $user->user_status_id != User::WAITING) {	
+ 			// $errormsg="Not in PLAYING state";
+ 			// goto error;
+ 		// }
+
+ 		if ($user->user_status_id == User::WAITING) {	
+			$errormsg="Not in PLAYING state";
+			goto error;
+		}
+
+ 		
  			
- 		$match = $this->match_model->getExclusive($user->match_id);			
+ 		$match = $this->match_model->getExclusive($user->match_id);
  			
  		// $this->session->set_userdata('cart', array());
 
  		if($match != null) {
- 			$boardArray = $match->board_state;
+ 			$jsonBoardArray = $match->board_state;
  			// Check if it's the user's turn
- 			if($user == $boardArray[1]) {
- 				$this->session->set_userdata('turn', True);
- 			}
- 			else {
- 				$this->session->set_userdata('turn', False);
- 			}
+ 			// error_log($boardArray);
+ 			// error_log("yo");
+ 			$boardArray = json_decode($jsonBoardArray);
+ 			
+ 			
+ 			echo $jsonBoardArray;
+	
+ 			return;
  		}
- 		
- 		echo json_encode(array('status'=>'success','message'=>$msg));
-		return $boardArray;
-		
+ 				
 		error:
 		echo json_encode(array('status'=>'failure','message'=>$errormsg));
+ 	}
+
+ 	function getWinner($board) {
+ 		$tie_flag = TRUE;
+ 		foreach($board as $rowIndex => $row) {
+ 			foreach($row as $colIndex => $item) {
+ 				if($item == 0) $tie_flag = FALSE;
+ 				// down check
+ 				if($rowIndex <= 2 &&
+ 					$board[$rowIndex][$colIndex] != 0 &&
+ 					$board[$rowIndex][$colIndex] == $board[$rowIndex+1][$colIndex] && 
+ 					$board[$rowIndex+1][$colIndex] == $board[$rowIndex+2][$colIndex] &&
+ 					$board[$rowIndex+2][$colIndex] == $board[$rowIndex+3][$colIndex]) {
+ 					return $board[$rowIndex][$colIndex];
+ 				}
+ 				// diag right check
+ 				if($rowIndex <= 2 && $colIndex <= 3 &&
+ 					$board[$rowIndex][$colIndex] != 0 &&
+ 					$board[$rowIndex][$colIndex] == $board[$rowIndex+1][$colIndex+1] && 
+ 					$board[$rowIndex+1][$colIndex+1] == $board[$rowIndex+2][$colIndex+2] &&
+ 					$board[$rowIndex+2][$colIndex+2] == $board[$rowIndex+3][$colIndex+3]) {
+ 					return $board[$rowIndex][$colIndex];
+ 				}
+ 				// diag left check
+ 				if($rowIndex <= 2 && $colIndex >= 3 &&
+ 					$board[$rowIndex][$colIndex] != 0 &&
+ 					$board[$rowIndex][$colIndex] == $board[$rowIndex+1][$colIndex-1] && 
+ 					$board[$rowIndex+1][$colIndex-1] == $board[$rowIndex+2][$colIndex-2] &&
+ 					$board[$rowIndex+2][$colIndex-2] == $board[$rowIndex+3][$colIndex-3]) {
+ 					return $board[$rowIndex][$colIndex];
+ 				}
+ 				// right
+ 				if($colIndex <= 3 &&
+ 					$board[$rowIndex][$colIndex] != 0 &&
+ 					$board[$rowIndex][$colIndex] == $board[$rowIndex][$colIndex+1] && 
+ 					$board[$rowIndex][$colIndex+1] == $board[$rowIndex][$colIndex+2] &&
+ 					$board[$rowIndex][$colIndex+2] == $board[$rowIndex][$colIndex+3]) {
+ 					return $board[$rowIndex][$colIndex];
+ 				}
+ 			}
+ 		}
+ 		if ($tie_flag){
+ 			// tie
+ 			return -2;
+ 		} 
+ 		else{
+ 			// game's on
+ 			return -4;
+ 		}
  	}
  	
  }
