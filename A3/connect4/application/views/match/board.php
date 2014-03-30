@@ -170,18 +170,25 @@
 			}
 
 			$('.cell').click(function(){
-				col = getCellCol($(this));
-				target = whichCell(col, theArray);
-				if(target){
-					theArray[target.row][target.col] = 1
-					$(target.targetId).removeClass('cell-empty').addClass('cell-your');
-					if(target.row-1 >= 0){
-						hoverCellColor($('#cell' + (target.row-1) + '' + target.col), true);
+				if (true) {
+					col = getCellCol($(this));
+					target = whichCell(col, theArray);
+					if(target){
+						theArray[target.row][target.col] = 1
+						$(target.targetId).removeClass('cell-empty').addClass('cell-your');
+						if(target.row-1 >= 0){
+							hoverCellColor($('#cell' + (target.row-1) + '' + target.col), true);
+						}
+
+						$.post("<?= base_url() ?>board/postBoard", {'array': theArray, 'username': user});
 					}
-					// post data
+					else{
+						alert("You can't place a piece in this column");
+					}
+				} 
+				else{
+					alert("It's not your turn. Wait until the other player plays a move.");
 				}
-				else
-					alert("You can't place a piece in this column");
 			});
 		});
 	
@@ -202,7 +209,7 @@
 			echo "Wating on " . $otherUser->login;
 	?>
 	</div>
-	
+<!-- 	
 <?php 
 
 	$textareaData = array(
@@ -219,16 +226,16 @@
 	echo form_close();
 	
 ?>
+ -->
 
-
-<table>
+<table style="background-color: #ccc">
 	<tr>
 		<td>Your color:</td>
-		<td><b>RED</b></td>
+		<td><b style="color: red">RED</b></td>
 	</tr>
 	<tr>
 		<td><?= $otherUser->login ?>'s color:</span></td>
-		<td><b>YELLOW</b></td>
+		<td><b style="color: yellow">YELLOW</b></td>
 	</tr>
 </table>
 
