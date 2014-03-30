@@ -135,9 +135,10 @@ class Board extends CI_Controller {
 		 
 		return;
  		
-		
+		transactionerror:
+			$this->db->trans_rollback();
+
  		$errormsg="Not your turn";
- 		
 		error:
 			echo json_encode(array('status'=>'failure','message'=>$errormsg));
  	}

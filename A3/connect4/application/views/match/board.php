@@ -32,14 +32,24 @@
 			background-color: yellow;
 		}
 
-		.indicator{
+		#indicator{
 			margin-top: 10px;
 			position: absolute;
 			display: none;
-			background-color: red;
+		}
+
+		.legend{
 			border-radius: 100px;
 			border: 4px solid white;
 			padding: 20px;
+		}
+
+		.legend-your{
+			background-color: red;
+		}
+
+		.legend-opp{
+			background-color: yellow;
 		}
 
 
@@ -99,6 +109,12 @@
 									[0, 0, 0, 0, 0, 0, 0],
 									[0, 0, 0, 0, 0, 0, 0]]
 
+			function getBoard(link){
+				$.get(link, function(data){
+
+				})
+			}
+
 			setInterval(function(){
 				// ajax call to update the array
 				for (var i = 0; i < theArray.length; i++) {
@@ -125,15 +141,15 @@
 				return null;
 			}
 
-			$('.indicator').css('left', $('.board').position().left);
+			$('#indicator').css('left', $('.board').position().left);
 
 			$('.cell').hover(
 				function(e){
-					$('.indicator').css({'left': $(this).position().left, 'display': 'inline-block'});
+					$('#indicator').css({'left': $(this).position().left, 'display': 'inline-block'});
 					hoverCellColor($(this), true);
 				}, 
 				function(e){
-					$('.indicator').css('display', 'none');
+					$('#indicator').css('display', 'none');
 					hoverCellColor($(this), false);
 				});
 
@@ -159,9 +175,13 @@
 				if(target){
 					theArray[target.row][target.col] = 1
 					$(target.targetId).removeClass('cell-empty').addClass('cell-your');
-					if(target.row-1 >= 0)
+					if(target.row-1 >= 0){
 						hoverCellColor($('#cell' + (target.row-1) + '' + target.col), true);
+					}
+					// post data
 				}
+				else
+					alert("You can't place a piece in this column");
 			});
 		});
 	
@@ -201,7 +221,18 @@
 ?>
 
 
-<span class="indicator"></span>
+<table>
+	<tr>
+		<td>Your color:</td>
+		<td><b>RED</b></td>
+	</tr>
+	<tr>
+		<td><?= $otherUser->login ?>'s color:</span></td>
+		<td><b>YELLOW</b></td>
+	</tr>
+</table>
+
+<span class="legend legend-your" id="indicator"></span>
 <table class="board">
 	<tr>
 		<td class="cell cell-empty" id="cell00"></td>
