@@ -313,6 +313,7 @@
 				<td class="cell cell-empty" id="cell05"></td>
 				<td class="cell cell-empty" id="cell06"></td>
 			</tr>
+			<tr></tr>
 			<tr>
 				<td class="cell cell-empty" id="cell10"></td>
 				<td class="cell cell-empty" id="cell11"></td>
@@ -322,6 +323,7 @@
 				<td class="cell cell-empty" id="cell15"></td>
 				<td class="cell cell-empty" id="cell16"></td>
 			</tr>
+			<tr></tr>
 			<tr>
 				<td class="cell cell-empty" id="cell20"></td>
 				<td class="cell cell-empty" id="cell21"></td>
@@ -331,6 +333,7 @@
 				<td class="cell cell-empty" id="cell25"></td>
 				<td class="cell cell-empty" id="cell26"></td>
 			</tr>
+			<tr></tr>
 			<tr>
 				<td class="cell cell-empty" id="cell30"></td>
 				<td class="cell cell-empty" id="cell31"></td>
@@ -340,6 +343,7 @@
 				<td class="cell cell-empty" id="cell35"></td>
 				<td class="cell cell-empty" id="cell36"></td>
 			</tr>
+			<tr></tr>
 			<tr>
 				<td class="cell cell-empty" id="cell40"></td>
 				<td class="cell cell-empty" id="cell41"></td>
@@ -349,6 +353,7 @@
 				<td class="cell cell-empty" id="cell45"></td>
 				<td class="cell cell-empty" id="cell46"></td>
 			</tr>
+			<tr></tr>
 			<tr>
 				<td class="cell cell-empty" id="cell50"></td>
 				<td class="cell cell-empty" id="cell51"></td>
