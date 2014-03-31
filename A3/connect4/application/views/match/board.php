@@ -262,12 +262,7 @@
 			
 			<div id='status'> 
 				<h4>
-				<?php 
-					if ($status == "playing")
-						echo "Playing " . $otherUser->login;
-					else
-						echo "Wating on " . $otherUser->login;
-				?>
+				Reference
 				</h4>
 			</div>
 		<!-- 	
