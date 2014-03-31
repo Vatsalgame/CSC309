@@ -3,6 +3,12 @@
 
 <html>
 	<head>
+		<meta charset="utf-8" />
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    	<title>Connect4 | MainPage</title>
+    	<link rel="stylesheet" href="<?php echo base_url("css/foundation.min.css"); ?>" />
+    	<script src="<?php echo base_url("js/vendor/modernizr.js"); ?>"></script>
+    	<script src="<?php echo base_url("js/vendor/jquery.js"); ?>"></script>
 	<style type="text/css">
 		.board{
 			background-color: #06F;
@@ -244,111 +250,117 @@
 	</script>
 	</head> 
 <body>  
-	<h1>Game Area</h1>
+	<div class="row">
+			<h1><center>Game Area</center></h1>
 
-	<div>
-	Hello <?= $user->fullName() ?>  <?= anchor('account/logout','(Logout)') ?>  
+			<div class="right">
+				<div>
+					<h4> Hello <?= $user->fullName() ?>
+				</div>
+				<?= anchor('account/logout','Logout', 'class="button"') ?> </h4>
+			</div>
+			
+			<div id='status'> 
+				<h4>
+				<?php 
+					if ($status == "playing")
+						echo "Playing " . $otherUser->login;
+					else
+						echo "Wating on " . $otherUser->login;
+				?>
+				</h4>
+			</div>
+		<!-- 	
+		<?php 
+
+			$textareaData = array(
+		          'name' => 'conversation', 'readonly' => 'readonly',
+		        );
+
+			$inputData = array('name' => 'msg', 'size' => 28);
+
+			echo form_textarea($textareaData);
+			
+			echo form_open();
+			echo form_input($inputData);
+			echo form_submit('Send','Send');
+			echo form_close();
+			
+		?>
+		 -->
+
+		<table style="background-color: #ccc">
+			<tr>
+				<td>Your color:</td>
+				<td><b style="color: red">RED</b></td>
+			</tr>
+			<tr>
+				<td><?= $otherUser->login ?>'s color:</span></td>
+				<td><b style="color: yellow">YELLOW</b></td>
+			</tr>
+		</table>
+
+		<div><h5> It's <b id="whose-turn"></b> turn </h5></div>
+
+		<span class="legend legend-your" id="indicator"></span>
+		<table class="board">
+			<tr>
+				<td class="cell cell-empty" id="cell00"></td>
+				<td class="cell cell-empty" id="cell01"></td>
+				<td class="cell cell-empty" id="cell02"></td>
+				<td class="cell cell-empty" id="cell03"></td>
+				<td class="cell cell-empty" id="cell04"></td>
+				<td class="cell cell-empty" id="cell05"></td>
+				<td class="cell cell-empty" id="cell06"></td>
+			</tr>
+			<tr>
+				<td class="cell cell-empty" id="cell10"></td>
+				<td class="cell cell-empty" id="cell11"></td>
+				<td class="cell cell-empty" id="cell12"></td>
+				<td class="cell cell-empty" id="cell13"></td>
+				<td class="cell cell-empty" id="cell14"></td>
+				<td class="cell cell-empty" id="cell15"></td>
+				<td class="cell cell-empty" id="cell16"></td>
+			</tr>
+			<tr>
+				<td class="cell cell-empty" id="cell20"></td>
+				<td class="cell cell-empty" id="cell21"></td>
+				<td class="cell cell-empty" id="cell22"></td>
+				<td class="cell cell-empty" id="cell23"></td>
+				<td class="cell cell-empty" id="cell24"></td>
+				<td class="cell cell-empty" id="cell25"></td>
+				<td class="cell cell-empty" id="cell26"></td>
+			</tr>
+			<tr>
+				<td class="cell cell-empty" id="cell30"></td>
+				<td class="cell cell-empty" id="cell31"></td>
+				<td class="cell cell-empty" id="cell32"></td>
+				<td class="cell cell-empty" id="cell33"></td>
+				<td class="cell cell-empty" id="cell34"></td>
+				<td class="cell cell-empty" id="cell35"></td>
+				<td class="cell cell-empty" id="cell36"></td>
+			</tr>
+			<tr>
+				<td class="cell cell-empty" id="cell40"></td>
+				<td class="cell cell-empty" id="cell41"></td>
+				<td class="cell cell-empty" id="cell42"></td>
+				<td class="cell cell-empty" id="cell43"></td>
+				<td class="cell cell-empty" id="cell44"></td>
+				<td class="cell cell-empty" id="cell45"></td>
+				<td class="cell cell-empty" id="cell46"></td>
+			</tr>
+			<tr>
+				<td class="cell cell-empty" id="cell50"></td>
+				<td class="cell cell-empty" id="cell51"></td>
+				<td class="cell cell-empty" id="cell52"></td>
+				<td class="cell cell-empty" id="cell53"></td>
+				<td class="cell cell-empty" id="cell54"></td>
+				<td class="cell cell-empty" id="cell55"></td>
+				<td class="cell cell-empty" id="cell56"></td>
+			</tr>
+		</table>
+	
 	</div>
-	
-	<div id='status'> 
-	<?php 
-		if ($status == "playing")
-			echo "Playing " . $otherUser->login;
-		else
-			echo "Wating on " . $otherUser->login;
-	?>
-	</div>
-<!-- 	
-<?php 
-
-	$textareaData = array(
-          'name' => 'conversation', 'readonly' => 'readonly',
-        );
-
-	$inputData = array('name' => 'msg', 'size' => 28);
-
-	echo form_textarea($textareaData);
-	
-	echo form_open();
-	echo form_input($inputData);
-	echo form_submit('Send','Send');
-	echo form_close();
-	
-?>
- -->
-
-<table style="background-color: #ccc">
-	<tr>
-		<td>Your color:</td>
-		<td><b style="color: red">RED</b></td>
-	</tr>
-	<tr>
-		<td><?= $otherUser->login ?>'s color:</span></td>
-		<td><b style="color: yellow">YELLOW</b></td>
-	</tr>
-</table>
-
-<div>It's <b id="whose-turn"></b> turn</div>
-
-<span class="legend legend-your" id="indicator"></span>
-<table class="board">
-	<tr>
-		<td class="cell cell-empty" id="cell00"></td>
-		<td class="cell cell-empty" id="cell01"></td>
-		<td class="cell cell-empty" id="cell02"></td>
-		<td class="cell cell-empty" id="cell03"></td>
-		<td class="cell cell-empty" id="cell04"></td>
-		<td class="cell cell-empty" id="cell05"></td>
-		<td class="cell cell-empty" id="cell06"></td>
-	</tr>
-	<tr>
-		<td class="cell cell-empty" id="cell10"></td>
-		<td class="cell cell-empty" id="cell11"></td>
-		<td class="cell cell-empty" id="cell12"></td>
-		<td class="cell cell-empty" id="cell13"></td>
-		<td class="cell cell-empty" id="cell14"></td>
-		<td class="cell cell-empty" id="cell15"></td>
-		<td class="cell cell-empty" id="cell16"></td>
-	</tr>
-	<tr>
-		<td class="cell cell-empty" id="cell20"></td>
-		<td class="cell cell-empty" id="cell21"></td>
-		<td class="cell cell-empty" id="cell22"></td>
-		<td class="cell cell-empty" id="cell23"></td>
-		<td class="cell cell-empty" id="cell24"></td>
-		<td class="cell cell-empty" id="cell25"></td>
-		<td class="cell cell-empty" id="cell26"></td>
-	</tr>
-	<tr>
-		<td class="cell cell-empty" id="cell30"></td>
-		<td class="cell cell-empty" id="cell31"></td>
-		<td class="cell cell-empty" id="cell32"></td>
-		<td class="cell cell-empty" id="cell33"></td>
-		<td class="cell cell-empty" id="cell34"></td>
-		<td class="cell cell-empty" id="cell35"></td>
-		<td class="cell cell-empty" id="cell36"></td>
-	</tr>
-	<tr>
-		<td class="cell cell-empty" id="cell40"></td>
-		<td class="cell cell-empty" id="cell41"></td>
-		<td class="cell cell-empty" id="cell42"></td>
-		<td class="cell cell-empty" id="cell43"></td>
-		<td class="cell cell-empty" id="cell44"></td>
-		<td class="cell cell-empty" id="cell45"></td>
-		<td class="cell cell-empty" id="cell46"></td>
-	</tr>
-	<tr>
-		<td class="cell cell-empty" id="cell50"></td>
-		<td class="cell cell-empty" id="cell51"></td>
-		<td class="cell cell-empty" id="cell52"></td>
-		<td class="cell cell-empty" id="cell53"></td>
-		<td class="cell cell-empty" id="cell54"></td>
-		<td class="cell cell-empty" id="cell55"></td>
-		<td class="cell cell-empty" id="cell56"></td>
-	</tr>
-</table>
-	
-	
 	
 	
 </body>

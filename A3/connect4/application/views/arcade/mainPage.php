@@ -5,6 +5,13 @@
 	
 	<head>
 
+	<meta charset="utf-8" />
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    	<title>Connect4 | MainPage</title>
+    	<link rel="stylesheet" href="<?php echo base_url("css/foundation.min.css"); ?>" />
+    	<script src="<?php echo base_url("js/vendor/modernizr.js"); ?>"></script>
+    	<script src="<?php echo base_url("js/vendor/jquery.js"); ?>"></script>
+
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<script src="<?= base_url() ?>/js/jquery.timers.js"></script>
 	<script>
@@ -30,23 +37,30 @@
 	
 	</script>
 	</head> 
-<body>  
-	<h1>Connect 4</h1>
+<body>
+	<div class="row">
+		<h1><center>Connect 4</center></h1>
 
+		<div>
+			<div>
+				<h4> Hello <?= $user->fullName() ?> </h4>
+			</div> 
+			<?= anchor('account/logout','Logout', 'class="button alert"') ?>  
+			<?= anchor('account/updatePasswordForm','Change Password', 'class="button"') ?>
+
+			<?php 
+				if (isset($errmsg)) 
+					echo "<p>$errmsg</p>";
+			?>
+		</div>
+	
 	<div>
-	Hello <?= $user->fullName() ?>  <?= anchor('account/logout','(Logout)') ?>  <?= anchor('account/updatePasswordForm','(Change Password)') ?>
+		<h2>Available Users</h2>
+		<div id="availableUsers">
+		</div>
 	</div>
-	
-<?php 
-	if (isset($errmsg)) 
-		echo "<p>$errmsg</p>";
-?>
-	<h2>Available Users</h2>
-	<div id="availableUsers">
+
 	</div>
-	
-	
-	
 </body>
 
 </html>
